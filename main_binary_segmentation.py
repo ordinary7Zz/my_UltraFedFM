@@ -29,6 +29,27 @@ from scipy.ndimage.morphology import distance_transform_edt as edt
 
 import segmentation_models_pytorch as smp
 
+
+def bootstrap_ci(stat_fn, n, n_boot=2000, alpha=0.05, seed=42):
+    rng = np.random.default_rng(seed)
+    values = []
+
+    for _ in range(n_boot):
+        idx = rng.integers(0, n, n)
+        value = stat_fn(idx)
+        if value is None or np.isnan(value):
+            continue
+        values.append(float(value))
+
+    if len(values) == 0:
+        return np.nan, np.nan, np.nan
+
+    values = np.asarray(values, dtype=float)
+    point_estimate = float(stat_fn(np.arange(n)))
+    lower = float(np.percentile(values, 100 * alpha / 2))
+    upper = float(np.percentile(values, 100 * (1 - alpha / 2)))
+    return point_estimate, lower, upper
+
 class TrainData(Dataset):
     def __init__(self, args, mode):
         self.args      = args
@@ -333,10 +354,10 @@ class Train(object):
     def eval(self, val_loader, model, save_path):
         model.eval()
         with torch.no_grad():
-            Dice = 0
-            IoU = 0
-            Mae = 0
-            HD = 0
+            dice_list = []
+            hd95_list = []
+            mae_list = []
+            iou_list = []
             hd_metric = HausdorffDistance()
             with open(save_path+'/eval.txt', 'w') as f:
                 for image, mask, name in tqdm(val_loader, total=len(val_loader), desc='Validation'):
@@ -344,18 +365,31 @@ class Train(object):
                     mask     = mask.cuda()
                     pred      = model(image)
                     iou, dice, mae  = evaluate(pred, mask)
-                    hd = hd_metric.compute(pred, mask)
-                    hd = hd.numpy()
-                    IoU += iou.item()
-                    Dice += dice.item()
-                    Mae += mae.item()
-                    HD += hd.item()
-                
-                IoU = IoU / len(val_loader)
-                Dice = Dice / len(val_loader)
-                Mae = Mae / len(val_loader)
-                HD = HD / len(val_loader)
-                print(f'MAE: {Mae} HD: {HD} IoU: {IoU} Dice: {Dice}')
+                    hd = hd_metric.compute(pred, mask).item()
+
+                    iou_list.append(float(iou))
+                    dice_list.append(float(dice))
+                    mae_list.append(float(mae))
+                    hd95_list.append(float(hd))
+
+                IoU = float(np.mean(iou_list))
+                Dice = float(np.mean(dice_list))
+                Mae = float(np.mean(mae_list))
+                HD = float(np.mean(hd95_list))
+
+                dice_arr = np.asarray(dice_list, dtype=float)
+                hd95_arr = np.asarray(hd95_list, dtype=float)
+                dice_mean, dice_lo, dice_hi = bootstrap_ci(lambda idx: dice_arr[idx].mean(), len(dice_arr))
+                hd95_mean, hd95_lo, hd95_hi = bootstrap_ci(lambda idx: hd95_arr[idx].mean(), len(hd95_arr))
+
+                summary_message = f'MAE: {Mae} HD95: {HD} IoU: {IoU} Dice: {Dice}'
+                ci_message = f'95% CI | HD95 [{hd95_lo}, {hd95_hi}] Dice [{dice_lo}, {dice_hi}]'
+                print(summary_message)
+                print(ci_message)
+                f.write(summary_message + '\n')
+                f.write(ci_message + '\n')
+                logging.info(summary_message)
+                logging.info(ci_message)
  
     def eval_instance(self, val_loader, model, save_path):
         model.eval()
