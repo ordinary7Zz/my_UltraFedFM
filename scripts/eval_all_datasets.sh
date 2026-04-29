@@ -38,7 +38,4 @@ echo "=========================================="
 echo "所有数据集评估完成！"
 echo "=========================================="
 echo ""
-echo "结果保存在:"
-for DATASET in "${DATASETS[@]}"; do
-    echo "  ./output_dir/${DATASET}/"
-done
+echo "结果保存在 checkpoint 所在目录下自动生成的 eval_<DATASET>_<TIMESTAMP>/ 目录中"

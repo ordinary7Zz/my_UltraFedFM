@@ -32,6 +32,12 @@ from segmentation_models_pytorch.losses import DiceLoss, JaccardLoss, SoftBCEWit
 from util.aop_estimation import angle_of_progression_estimation
 
 
+def sanitize_name(name):
+    if name is None:
+        return 'dataset'
+    return name.replace('\\', '_').replace('/', '_').replace(' ', '_')
+
+
 class DSC(nn.Module):
     def __init__(self):
         super().__init__()
@@ -385,8 +391,12 @@ if __name__=='__main__':
         os.makedirs(save_path, exist_ok=True)
         os.makedirs(args.exp_path, exist_ok=True)
     else:
-        save_path          = os.path.join(args.savepath, args.note)
-        args.exp_path = '/'.join(args.resume.split('/')[:-1])
+        save_path = os.path.join(args.savepath, args.note)
+        dataset_name = sanitize_name(args.note if args.note else os.path.basename(os.path.normpath(args.datapath)))
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+        mode_prefix = 'plot' if args.plot else 'eval'
+        args.exp_path = os.path.join('/'.join(args.resume.split('/')[:-1]), f'{mode_prefix}_{dataset_name}_{timestamp}')
+        os.makedirs(args.exp_path, exist_ok=True)
     
 
     logging.basicConfig(filename=args.exp_path+'/log.log',format='[%(asctime)s-%(filename)s-%(levelname)s:%(message)s]', level = logging.INFO,filemode='a',datefmt='%Y-%m-%d %I:%M:%S %p')

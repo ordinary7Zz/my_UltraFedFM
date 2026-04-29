@@ -30,6 +30,12 @@ from scipy.ndimage.morphology import distance_transform_edt as edt
 import segmentation_models_pytorch as smp
 
 
+def sanitize_name(name):
+    if name is None:
+        return 'dataset'
+    return name.replace('\\', '_').replace('/', '_').replace(' ', '_')
+
+
 def bootstrap_ci(stat_fn, n, n_boot=2000, alpha=0.05, seed=42):
     rng = np.random.default_rng(seed)
     values = []
@@ -448,8 +454,12 @@ if __name__=='__main__':
     
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_id
     if args.plot or args.eval:
-        save_path          = os.path.join(args.savepath, args.note)
-        args.exp_path = '/'.join(args.resume.split('/')[:-1])
+        save_path = os.path.join(args.savepath, args.note)
+        dataset_name = sanitize_name(args.note if args.note else os.path.basename(os.path.normpath(args.datapath)))
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+        mode_prefix = 'plot' if args.plot else 'eval'
+        args.exp_path = os.path.join('/'.join(args.resume.split('/')[:-1]), f'{mode_prefix}_{dataset_name}_{timestamp}')
+        os.makedirs(args.exp_path, exist_ok=True)
     else:
         save_path          = os.path.join(args.savepath, args.note)
         current_timestamp  = datetime.now().timestamp()

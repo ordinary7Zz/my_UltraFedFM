@@ -225,7 +225,18 @@ CUDA_VISIBLE_DEVICES=1 python main_diagnosis.py \
 - roc.csv
 - overall_stat.csv
 - confusion_matrix.jpg
-- eval 目录下日志
+- logging.log
+
+保存位置：
+- 如果使用 --resume ./output_dir/toy_diagnosis/vit_b_ssl_usffm/log_xxx/checkpoint-best_acc.pth
+- 则每次评估都会新建独立目录：./output_dir/toy_diagnosis/vit_b_ssl_usffm/log_xxx/eval_<dataset_name>_<timestamp>/
+
+其中：
+- roc.csv 保存在 ./output_dir/.../log_xxx/eval_<dataset_name>_<timestamp>/roc.csv
+- overall_stat.csv 保存在 ./output_dir/.../log_xxx/eval_<dataset_name>_<timestamp>/overall_stat.csv
+- confusion_matrix.jpg 保存在 ./output_dir/.../log_xxx/eval_<dataset_name>_<timestamp>/confusion_matrix.jpg
+- logging.log 保存在 ./output_dir/.../log_xxx/eval_<dataset_name>_<timestamp>/logging.log
+- 分类指标与 95% CI 也会写入这个 logging.log
 
 ==================================================
 9. 二分类分割任务
@@ -272,6 +283,19 @@ CUDA_VISIBLE_DEVICES=0 python main_binary_segmentation.py \
   --resume ./output_dir/toy_segmentation/vit_b_ssl_usffm/log_xxx/epoch_bestDice.pth \
   --eval
 
+评估输出通常包括：
+- eval.txt
+- log.log
+
+保存位置：
+- 如果使用 --resume ./output_dir/toy_segmentation/vit_b_ssl_usffm/log_xxx/epoch_bestDice.pth
+- 则每次评估都会新建独立目录：./output_dir/toy_segmentation/vit_b_ssl_usffm/log_xxx/eval_<dataset_name>_<timestamp>/
+
+其中：
+- eval.txt 保存在 ./output_dir/.../log_xxx/eval_<dataset_name>_<timestamp>/eval.txt
+- log.log 保存在 ./output_dir/.../log_xxx/eval_<dataset_name>_<timestamp>/log.log
+- 二分类分割指标与 95% CI 会同时写入 eval.txt 和 log.log
+
 9.3 结果可视化
 默认脚本：
 
@@ -279,6 +303,10 @@ bash scripts/plot_binary_segmentation.sh
 
 会把预测结果保存到类似目录：
 - output_dir/.../figures/
+
+保存位置：
+- 如果使用 --resume ./output_dir/toy_segmentation/vit_b_ssl_usffm/log_xxx/epoch_bestDice.pth
+- 则预测 mask 保存在 ./output_dir/toy_segmentation/vit_b_ssl_usffm/log_xxx/plot_<dataset_name>_<timestamp>/figures/
 
 ==================================================
 10. 多类分割任务
@@ -315,6 +343,18 @@ CUDA_VISIBLE_DEVICES=1 python main_multi_segmentation.py \
   --resume ./output_dir/toy_multi_segmentation/vit_b_ssl_usffm/log_xxx/epoch_bestDice.pth \
   --eval
 
+评估输出通常包括：
+- eval.txt
+- log.log
+
+保存位置：
+- 如果使用 --resume ./output_dir/toy_multi_segmentation/vit_b_ssl_usffm/log_xxx/epoch_bestDice.pth
+- 则每次评估都会新建独立目录：./output_dir/toy_multi_segmentation/vit_b_ssl_usffm/log_xxx/eval_<dataset_name>_<timestamp>/
+
+其中：
+- eval.txt 保存在 ./output_dir/.../log_xxx/eval_<dataset_name>_<timestamp>/eval.txt
+- log.log 保存在 ./output_dir/.../log_xxx/eval_<dataset_name>_<timestamp>/log.log
+
 10.3 可视化
 默认脚本：
 
@@ -322,6 +362,10 @@ bash scripts/plot_multi_segmentation.sh
 
 会把结果保存到类似目录：
 - output_dir/.../figures_multi/
+
+保存位置：
+- 如果使用 --resume ./output_dir/toy_multi_segmentation/vit_b_ssl_usffm/log_xxx/epoch_bestDice.pth
+- 则可视化结果保存在 ./output_dir/toy_multi_segmentation/vit_b_ssl_usffm/log_xxx/plot_<dataset_name>_<timestamp>/figures_multi/
 
 ==================================================
 11. 最短跑通路径

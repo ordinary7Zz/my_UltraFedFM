@@ -22,6 +22,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import torch.backends.cudnn as cudnn
 
+
+def sanitize_name(name):
+    if name is None:
+        return 'dataset'
+    return name.replace('\\', '_').replace('/', '_').replace(' ', '_')
+
 from pycm import *
 from pathlib import Path
 from tabulate import tabulate
@@ -428,7 +434,9 @@ if __name__ == '__main__':
         args.output_dir = exp_path
         args.log_dir    = exp_path
     else:
-        args.log_dir = '/'.join(args.resume.split('/')[:-1]) + '/eval'
+        dataset_name = sanitize_name(os.path.basename(os.path.normpath(args.data_path)))
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+        args.log_dir = os.path.join('/'.join(args.resume.split('/')[:-1]), f'eval_{dataset_name}_{timestamp}')
         os.makedirs(args.log_dir, exist_ok=True)
     # if args.output_dir:
     #     Path(args.output_dir).mkdir(parents=True, exist_ok=True)
