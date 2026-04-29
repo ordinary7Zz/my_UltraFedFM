@@ -254,8 +254,8 @@ def evaluate(data_loader, model, device, epoch, logging, args):
     total_loss = total_loss / count
 
     summary_message = (
-        'TEST Epoch:{epoch} * ACC {acc:.3f} Precision {prec:.3f} Recall {rec:.3f} '
-        'F1 {f1:.3f} AUROC {auroc:.3f} AUPR {aupr:.3f} SPE {spe:.3f} Loss {loss:.3f} '
+        'TEST Epoch:{epoch} * ACC {acc:.4f} Precision {prec:.4f} Recall {rec:.4f} '
+        'F1 {f1:.4f} AUROC {auroc:.4f} AUPR {aupr:.4f} SPE {spe:.4f} Loss {loss:.4f} '
         '\n Confusion Matrix \n {cm}'
     ).format(
         epoch=epoch,
@@ -274,13 +274,13 @@ def evaluate(data_loader, model, device, epoch, logging, args):
 
     ci_message = (
         '95% CI | '
-        'ACC [{acc_lo:.3f}, {acc_hi:.3f}] '
-        'Precision [{prec_lo:.3f}, {prec_hi:.3f}] '
-        'Recall [{rec_lo:.3f}, {rec_hi:.3f}] '
-        'F1 [{f1_lo:.3f}, {f1_hi:.3f}] '
-        'AUROC [{auroc_lo:.3f}, {auroc_hi:.3f}] '
-        'AUPRC [{auprc_lo:.3f}, {auprc_hi:.3f}] '
-        'SPE [{spe_lo:.3f}, {spe_hi:.3f}]'
+        'ACC [{acc_lo:.4f}, {acc_hi:.4f}] '
+        'Precision [{prec_lo:.4f}, {prec_hi:.4f}] '
+        'Recall [{rec_lo:.4f}, {rec_hi:.4f}] '
+        'F1 [{f1_lo:.4f}, {f1_hi:.4f}] '
+        'AUROC [{auroc_lo:.4f}, {auroc_hi:.4f}] '
+        'AUPRC [{auprc_lo:.4f}, {auprc_hi:.4f}] '
+        'SPE [{spe_lo:.4f}, {spe_hi:.4f}]'
     ).format(
         acc_lo=100 * ci_stats['acc_ci'][1], acc_hi=100 * ci_stats['acc_ci'][2],
         prec_lo=ci_stats['precision_ci'][1], prec_hi=ci_stats['precision_ci'][2],
