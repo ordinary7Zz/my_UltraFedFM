@@ -351,6 +351,36 @@ def main(args):
         for i in range(args.nb_classes):
             tables.append([i, cm.ACC[i], cm.PPV[i] if cm.PPV[i] != 'None' else 0, cm.F1[i] if cm.F1[i] != 'None' else 0, cm.AUC[i] if cm.AUC[i] != 'None' else 0, cm.AUPR[i] if cm.AUPR[i] != 'None' else 0])
         logging.info('\n'+'Class stat:'+'\n'+tabulate(tables, headers, tablefmt="github", numalign="center"))
+
+        consistent_tables = []
+        consistent_headers = ['Class', 'Accuracy', 'Precision', 'Recall', 'F1', 'AUROC', 'AUPR', 'SPE']
+        for i, class_metric in enumerate(test_stats['classwise_metrics_consistent']):
+            consistent_tables.append([
+                i,
+                class_metric['accuracy'],
+                class_metric['precision'],
+                class_metric['recall'],
+                class_metric['f1'],
+                class_metric['auroc'],
+                class_metric['aupr'],
+                class_metric['specificity'],
+            ])
+        logging.info('\n'+'Class stat (score-based, definition-consistent):'+'\n'+tabulate(consistent_tables, consistent_headers, tablefmt="github", numalign="center", floatfmt='.4f'))
+
+        consistent_ci_tables = []
+        consistent_ci_headers = ['Class', 'Accuracy 95% CI', 'Precision 95% CI', 'Recall 95% CI', 'F1 95% CI', 'AUROC 95% CI', 'AUPR 95% CI', 'SPE 95% CI']
+        for i, class_ci in enumerate(test_stats['classwise_ci_consistent']):
+            consistent_ci_tables.append([
+                i,
+                f"[{class_ci['accuracy_ci'][1]:.4f}, {class_ci['accuracy_ci'][2]:.4f}]",
+                f"[{class_ci['precision_ci'][1]:.4f}, {class_ci['precision_ci'][2]:.4f}]",
+                f"[{class_ci['recall_ci'][1]:.4f}, {class_ci['recall_ci'][2]:.4f}]",
+                f"[{class_ci['f1_ci'][1]:.4f}, {class_ci['f1_ci'][2]:.4f}]",
+                f"[{class_ci['auroc_ci'][1]:.4f}, {class_ci['auroc_ci'][2]:.4f}]",
+                f"[{class_ci['auprc_ci'][1]:.4f}, {class_ci['auprc_ci'][2]:.4f}]",
+                f"[{class_ci['specificity_ci'][1]:.4f}, {class_ci['specificity_ci'][2]:.4f}]",
+            ])
+        logging.info('\n'+'Class stat 95% CI (score-based, definition-consistent):'+'\n'+tabulate(consistent_ci_tables, consistent_ci_headers, tablefmt="github", numalign="center"))
         exit(0)
 
     print(f"Start training for {args.epochs} epochs")

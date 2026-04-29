@@ -14,7 +14,6 @@ import math
 import torch
 import logging
 import numpy as np
-import torchmetrics
 import torch.nn as nn
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
@@ -54,55 +53,70 @@ def bootstrap_ci(stat_fn, n, n_boot=2000, alpha=0.05, seed=42):
     return point_estimate, lower, upper
 
 
+def binary_specificity(y_true, y_pred):
+    cm = confusion_matrix(y_true, y_pred, labels=[0, 1])
+    tn, fp = cm[0, 0], cm[0, 1]
+    denom = tn + fp
+    if denom == 0:
+        return np.nan
+    return float(tn / denom)
+
+
 def classification_specificity(y_true, y_pred, num_classes):
-    cm = confusion_matrix(y_true, y_pred, labels=list(range(num_classes)))
-    total = cm.sum()
+    if num_classes == 2:
+        return binary_specificity(y_true, y_pred)
+
     specificities = []
     for class_idx in range(num_classes):
-        tp = cm[class_idx, class_idx]
-        fp = cm[:, class_idx].sum() - tp
-        fn = cm[class_idx, :].sum() - tp
-        tn = total - tp - fp - fn
-        denom = tn + fp
-        if denom > 0:
-            specificities.append(tn / denom)
+        y_true_i = (y_true == class_idx).astype(int)
+        y_pred_i = (y_pred == class_idx).astype(int)
+        specificity = binary_specificity(y_true_i, y_pred_i)
+        if not np.isnan(specificity):
+            specificities.append(specificity)
     if len(specificities) == 0:
         return np.nan
     return float(np.mean(specificities))
 
 
+def classification_metrics(y_true, y_pred, y_score, num_classes):
+    metrics = {
+        'acc': float(accuracy_score(y_true, y_pred)),
+        'specificity': classification_specificity(y_true, y_pred, num_classes),
+    }
+
+    if num_classes == 2:
+        metrics['precision'] = float(precision_score(y_true, y_pred, average='binary', zero_division=0))
+        metrics['recall'] = float(recall_score(y_true, y_pred, average='binary', zero_division=0))
+        metrics['f1'] = float(f1_score(y_true, y_pred, average='binary', zero_division=0))
+        if np.unique(y_true).size < 2:
+            metrics['auroc'] = np.nan
+            metrics['aupr'] = np.nan
+        else:
+            metrics['auroc'] = float(roc_auc_score(y_true, y_score[:, 1]))
+            metrics['aupr'] = float(average_precision_score(y_true, y_score[:, 1]))
+        return metrics
+
+    metrics['precision'] = float(precision_score(y_true, y_pred, average='macro', zero_division=0))
+    metrics['recall'] = float(recall_score(y_true, y_pred, average='macro', zero_division=0))
+    metrics['f1'] = float(f1_score(y_true, y_pred, average='macro', zero_division=0))
+    if np.unique(y_true).size < num_classes:
+        metrics['auroc'] = np.nan
+        metrics['aupr'] = np.nan
+    else:
+        y_true_bin = label_binarize(y_true, classes=np.arange(num_classes))
+        metrics['auroc'] = float(roc_auc_score(y_true_bin, y_score, average='macro', multi_class='ovr'))
+        metrics['aupr'] = float(average_precision_score(y_true_bin, y_score, average='macro'))
+    return metrics
+
+
 def classification_metric_ci(y_true, y_pred, y_score, num_classes):
     n = len(y_true)
-    average_mode = 'binary' if num_classes == 2 else 'macro'
 
     def metric_from_bootstrap(metric_name, idx):
-        y_true_i = y_true[idx]
-        y_pred_i = y_pred[idx]
-        y_score_i = y_score[idx]
-
-        if metric_name == 'acc':
-            return accuracy_score(y_true_i, y_pred_i)
-        if metric_name == 'precision':
-            return precision_score(y_true_i, y_pred_i, average=average_mode, zero_division=0)
-        if metric_name == 'recall':
-            return recall_score(y_true_i, y_pred_i, average=average_mode, zero_division=0)
-        if metric_name == 'f1':
-            return f1_score(y_true_i, y_pred_i, average=average_mode, zero_division=0)
-        if metric_name == 'specificity':
-            return classification_specificity(y_true_i, y_pred_i, num_classes)
-        if np.unique(y_true_i).size < 2:
-            return None
-        if metric_name == 'auroc':
-            if num_classes == 2:
-                return roc_auc_score(y_true_i, y_score_i[:, 1])
-            y_true_bin = label_binarize(y_true_i, classes=np.arange(num_classes))
-            return roc_auc_score(y_true_bin, y_score_i, average='macro', multi_class='ovr')
+        metrics = classification_metrics(y_true[idx], y_pred[idx], y_score[idx], num_classes)
         if metric_name == 'auprc':
-            if num_classes == 2:
-                return average_precision_score(y_true_i, y_score_i[:, 1])
-            y_true_bin = label_binarize(y_true_i, classes=np.arange(num_classes))
-            return average_precision_score(y_true_bin, y_score_i, average='macro')
-        return None
+            return metrics['aupr']
+        return metrics[metric_name]
 
     return {
         'acc_ci': bootstrap_ci(lambda idx: metric_from_bootstrap('acc', idx), n),
@@ -113,6 +127,71 @@ def classification_metric_ci(y_true, y_pred, y_score, num_classes):
         'auroc_ci': bootstrap_ci(lambda idx: metric_from_bootstrap('auroc', idx), n),
         'auprc_ci': bootstrap_ci(lambda idx: metric_from_bootstrap('auprc', idx), n),
     }
+
+
+def classwise_classification_metrics(y_true, y_pred, y_score, num_classes):
+    class_metrics = []
+
+    for class_idx in range(num_classes):
+        y_true_i = (y_true == class_idx).astype(int)
+        y_pred_i = (y_pred == class_idx).astype(int)
+        metrics = {
+            'accuracy': float(accuracy_score(y_true_i, y_pred_i)),
+            'precision': float(precision_score(y_true_i, y_pred_i, zero_division=0)),
+            'recall': float(recall_score(y_true_i, y_pred_i, zero_division=0)),
+            'f1': float(f1_score(y_true_i, y_pred_i, zero_division=0)),
+            'specificity': binary_specificity(y_true_i, y_pred_i),
+        }
+        if np.unique(y_true_i).size < 2:
+            metrics['auroc'] = np.nan
+            metrics['aupr'] = np.nan
+        else:
+            metrics['auroc'] = float(roc_auc_score(y_true_i, y_score[:, class_idx]))
+            metrics['aupr'] = float(average_precision_score(y_true_i, y_score[:, class_idx]))
+        class_metrics.append(metrics)
+
+    return class_metrics
+
+
+def classwise_classification_metric_ci(y_true, y_pred, y_score, num_classes):
+    n = len(y_true)
+    class_ci = []
+
+    for class_idx in range(num_classes):
+        def metric_from_bootstrap(metric_name, idx, current_class=class_idx):
+            y_true_i = (y_true[idx] == current_class).astype(int)
+            y_pred_i = (y_pred[idx] == current_class).astype(int)
+            y_score_i = y_score[idx, current_class]
+
+            if metric_name == 'accuracy':
+                return accuracy_score(y_true_i, y_pred_i)
+            if metric_name == 'precision':
+                return precision_score(y_true_i, y_pred_i, zero_division=0)
+            if metric_name == 'recall':
+                return recall_score(y_true_i, y_pred_i, zero_division=0)
+            if metric_name == 'f1':
+                return f1_score(y_true_i, y_pred_i, zero_division=0)
+            if metric_name == 'specificity':
+                return binary_specificity(y_true_i, y_pred_i)
+            if np.unique(y_true_i).size < 2:
+                return None
+            if metric_name == 'auroc':
+                return roc_auc_score(y_true_i, y_score_i)
+            if metric_name == 'auprc':
+                return average_precision_score(y_true_i, y_score_i)
+            return None
+
+        class_ci.append({
+            'accuracy_ci': bootstrap_ci(lambda idx, m='accuracy': metric_from_bootstrap(m, idx), n),
+            'precision_ci': bootstrap_ci(lambda idx, m='precision': metric_from_bootstrap(m, idx), n),
+            'recall_ci': bootstrap_ci(lambda idx, m='recall': metric_from_bootstrap(m, idx), n),
+            'f1_ci': bootstrap_ci(lambda idx, m='f1': metric_from_bootstrap(m, idx), n),
+            'specificity_ci': bootstrap_ci(lambda idx, m='specificity': metric_from_bootstrap(m, idx), n),
+            'auroc_ci': bootstrap_ci(lambda idx, m='auroc': metric_from_bootstrap(m, idx), n),
+            'auprc_ci': bootstrap_ci(lambda idx, m='auprc': metric_from_bootstrap(m, idx), n),
+        })
+
+    return class_ci
 
 
 def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
@@ -191,14 +270,6 @@ def evaluate(data_loader, model, device, epoch, logging, args):
 
     model.eval()
 
-    test_acc = torchmetrics.Accuracy('multiclass', average='micro', num_classes=args.nb_classes).cuda()
-    test_recall = torchmetrics.Recall('multiclass', average='macro', num_classes=args.nb_classes).cuda()
-    test_precision = torchmetrics.Precision('multiclass', average='macro', num_classes=args.nb_classes).cuda()
-    test_f1 = torchmetrics.F1Score('multiclass', average='macro', num_classes=args.nb_classes).cuda()
-    test_auroc = torchmetrics.AUROC("multiclass", average='macro', num_classes=args.nb_classes).cuda()
-    test_aupr = torchmetrics.AveragePrecision("multiclass", average='macro', num_classes=args.nb_classes).cuda()
-    test_spe = torchmetrics.Specificity('multiclass', average='macro', num_classes=args.nb_classes).cuda()
-    test_cm = torchmetrics.ConfusionMatrix('multiclass', num_classes=args.nb_classes).cuda()
     total_loss = 0.
     count = 0
 
@@ -226,32 +297,23 @@ def evaluate(data_loader, model, device, epoch, logging, args):
         total_loss += loss.item() * batch_size
         count += batch_size
 
-        test_acc(output.argmax(1), target)
-        test_recall(output.argmax(1), target)
-        test_precision(output.argmax(1), target)
-        test_f1(output.argmax(1), target)
-        test_spe(output.argmax(1), target)
-        test_auroc(output, target)
-        test_aupr(output, target)
-        test_cm(output, target)
-
-    cm = ConfusionMatrix(actual_vector=true_label_decode_list, predict_vector=prediction_decode_list)
     y_true_np = np.asarray(true_label_decode_list)
     y_pred_np = np.asarray(prediction_decode_list)
     y_score_np = np.asarray(prediction_score_list)
+    metrics = classification_metrics(y_true_np, y_pred_np, y_score_np, args.nb_classes)
     ci_stats = classification_metric_ci(y_true_np, y_pred_np, y_score_np, args.nb_classes)
-    if args.nb_classes > 2:
-        total_acc = test_acc.compute()
-    else:
-        total_acc = cm.ACC_Macro
-    total_recall = test_recall.compute()
-    total_precision = test_precision.compute()
-    total_auroc = test_auroc.compute()
-    total_aupr = test_aupr.compute()
-    total_f1 = test_f1.compute()
-    total_spe = test_spe.compute()
-    total_cm = test_cm.compute()
+    classwise_metrics = classwise_classification_metrics(y_true_np, y_pred_np, y_score_np, args.nb_classes)
+    classwise_ci_stats = classwise_classification_metric_ci(y_true_np, y_pred_np, y_score_np, args.nb_classes)
+    total_cm = torch.tensor(confusion_matrix(y_true_np, y_pred_np, labels=list(range(args.nb_classes))), device=device)
     total_loss = total_loss / count
+
+    total_acc = metrics['acc']
+    total_precision = metrics['precision']
+    total_recall = metrics['recall']
+    total_f1 = metrics['f1']
+    total_auroc = metrics['auroc']
+    total_aupr = metrics['aupr']
+    total_spe = metrics['specificity']
 
     summary_message = (
         'TEST Epoch:{epoch} * ACC {acc:.4f} Precision {prec:.4f} Recall {rec:.4f} '
@@ -293,6 +355,26 @@ def evaluate(data_loader, model, device, epoch, logging, args):
     print(ci_message)
     logging.info(ci_message)
 
+    classwise_summary = []
+    for class_idx, (class_metric, class_ci) in enumerate(zip(classwise_metrics, classwise_ci_stats)):
+        classwise_summary.append({
+            'Class': class_idx,
+            'Accuracy': class_metric['accuracy'],
+            'Precision': class_metric['precision'],
+            'Recall': class_metric['recall'],
+            'F1': class_metric['f1'],
+            'AUROC': class_metric['auroc'],
+            'AUPR': class_metric['aupr'],
+            'SPE': class_metric['specificity'],
+            'Accuracy 95% CI': class_ci['accuracy_ci'][1:],
+            'Precision 95% CI': class_ci['precision_ci'][1:],
+            'Recall 95% CI': class_ci['recall_ci'][1:],
+            'F1 95% CI': class_ci['f1_ci'][1:],
+            'AUROC 95% CI': class_ci['auroc_ci'][1:],
+            'AUPR 95% CI': class_ci['auprc_ci'][1:],
+            'SPE 95% CI': class_ci['specificity_ci'][1:],
+        })
+
     return {
         'acc': 100 * total_acc,
         'precision': total_precision,
@@ -307,4 +389,8 @@ def evaluate(data_loader, model, device, epoch, logging, args):
         'y_pred': prediction_decode_list,
         'y_score': prediction_score_list,
         'ci': ci_stats,
+        'metrics_consistent': metrics,
+        'classwise_metrics_consistent': classwise_metrics,
+        'classwise_ci_consistent': classwise_ci_stats,
+        'classwise_summary': classwise_summary,
     }
