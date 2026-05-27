@@ -20,7 +20,7 @@
 当前实际在用的脚本：
 - `scripts/my_class_pretrain.sh`：训练当前分类模型
 - `scripts/eval_all_classification.sh`：批量评估多个甲状腺分类数据集
-- `scripts/eval_all_classification_json.sh`：批量评估多个甲状腺分类数据集，并额外导出 AUROC JSON
+- `scripts/eval_all_classification_json.sh`：调用独立推理脚本批量评估多个甲状腺分类数据集，并额外导出 AUROC JSON
 
 ---
 
@@ -42,6 +42,12 @@
 - `train/` 用于训练
 - `test/` 用于评估/推理
 - 每个类别目录下直接放图片
+- 类别目录名不强制必须叫 `benign` / `malignant`，也可以是 `0` / `1`
+- 但二分类评估默认把 **class index 1** 当作正类概率 `prob_class_1`
+- `ImageFolder` 会按**子目录名字典序**分配类别编号，因此要确保“恶性/正类”排在编号 `1`
+- 最推荐的命名是：`benign -> 0`、`malignant -> 1`；如果用数字目录，也建议固定为 `0=benign`、`1=malignant`
+- 训练仍然要求使用 `train/` + `test/` 结构
+- **新的独立推理脚本**允许只传测试集：如果目录下存在 `test/`，就读取 `test/`；如果没有 `test/`，则直接把当前目录当成测试集根目录（例如只有 `0/1` 或 `benign/malignant` 子目录也可以）
 
 ---
 
@@ -111,19 +117,19 @@ CUDA_VISIBLE_DEVICES='0' python main_diagnosis.py \
 ---
 
 ## 6. 当前新增：导出 AUROC 绘图 JSON
-为了给 `plot_single_task_auroc.py` 使用，现在评估时支持额外导出标准 JSON。
+为了给 `plot_single_task_auroc.py` 使用，现在提供一个**独立推理脚本**来导出标准 JSON。
 
 ### 单数据集导出方式
 
+当前推荐入口：`inference_diagnosis_json.py`
+
 ```bash
-CUDA_VISIBLE_DEVICES=0 python main_diagnosis.py \
+CUDA_VISIBLE_DEVICES=0 python inference_diagnosis_json.py \
   --model vit_base_patch16 \
   --batch_size 16 \
   --nb_classes 2 \
   --data_path ./dataset/Classification/DDTI \
-  --resume ./output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/checkpoint-best_auroc.pth \
-  --eval \
-  --export_auroc_json
+  --resume ./output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/checkpoint-best_auroc.pth
 ```
 
 如果想自定义输出文件名，还可以加：
@@ -132,14 +138,30 @@ CUDA_VISIBLE_DEVICES=0 python main_diagnosis.py \
 --export_json_name my_results.json
 ```
 
+### 新推理脚本支持的目录形式
+
+支持两种：
+
+```text
+方式 A：
+<data_path>/test/<class_name>/*.png
+
+方式 B：
+<data_path>/<class_name>/*.png
+```
+
+也就是说：
+- 如果目录下有 `test/`，脚本会自动读取 `test/`
+- 如果目录下没有 `test/`，脚本会直接把当前目录当成测试集根目录
+
 ### 批量导出方式
 
 当前新增脚本：`scripts/eval_all_classification_json.sh`
 
-它与 `scripts/eval_all_classification.sh` 的评估参数保持一致，只额外增加：
+它与 `scripts/eval_all_classification.sh` 的评估参数保持一致，但底层改成调用独立推理脚本：
 
 ```bash
---export_auroc_json
+python inference_diagnosis_json.py ...
 ```
 
 也就是说：
@@ -149,7 +171,7 @@ CUDA_VISIBLE_DEVICES=0 python main_diagnosis.py \
 - `data_path` 相同
 - `resume` 相同
 - 评估的数据集列表相同
-- 只是在每次评估目录下多导出一个 JSON 文件
+- 只是入口改成了专用推理脚本，并且每次评估目录下都会导出一个 JSON 文件
 
 ### 导出位置
 仍然保存在评估目录下：
@@ -182,13 +204,13 @@ CUDA_VISIBLE_DEVICES=0 python main_diagnosis.py \
 1. 准备二分类目录结构数据集
 2. 运行 `scripts/my_class_pretrain.sh` 训练模型
 3. 用 `scripts/eval_all_classification.sh` 做批量评估
-4. 如果要保留可直接画 AUROC 的结果，运行 `scripts/eval_all_classification_json.sh` 或手动在评估命令后加 `--export_auroc_json`
+4. 如果要保留可直接画 AUROC 的结果，运行 `scripts/eval_all_classification_json.sh`，或直接调用 `inference_diagnosis_json.py`
 
 ---
 
 ## 8. 一句话总结
 当前项目里，甲状腺良恶性二分类的最新用法是：
 
-- 用 `main_diagnosis.py` 做训练和评估
+- 用 `main_diagnosis.py` 做训练和常规评估
 - 用 `checkpoint-best_auroc.pth` 做跨数据集评估
-- 用 `--export_auroc_json` 额外导出可供 AUROC 绘图脚本直接读取的 JSON 结果
+- 用 `inference_diagnosis_json.py` 或 `scripts/eval_all_classification_json.sh` 导出可供 AUROC 绘图脚本直接读取的 JSON 结果
