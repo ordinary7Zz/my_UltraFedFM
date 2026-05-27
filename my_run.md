@@ -20,6 +20,7 @@
 当前实际在用的脚本：
 - `scripts/my_class_pretrain.sh`：训练当前分类模型
 - `scripts/eval_all_classification.sh`：批量评估多个甲状腺分类数据集
+- `scripts/eval_all_classification_json.sh`：批量评估多个甲状腺分类数据集，并额外导出 AUROC JSON
 
 ---
 
@@ -112,7 +113,7 @@ CUDA_VISIBLE_DEVICES='0' python main_diagnosis.py \
 ## 6. 当前新增：导出 AUROC 绘图 JSON
 为了给 `plot_single_task_auroc.py` 使用，现在评估时支持额外导出标准 JSON。
 
-使用方式：
+### 单数据集导出方式
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 python main_diagnosis.py \
@@ -130,6 +131,25 @@ CUDA_VISIBLE_DEVICES=0 python main_diagnosis.py \
 ```bash
 --export_json_name my_results.json
 ```
+
+### 批量导出方式
+
+当前新增脚本：`scripts/eval_all_classification_json.sh`
+
+它与 `scripts/eval_all_classification.sh` 的评估参数保持一致，只额外增加：
+
+```bash
+--export_auroc_json
+```
+
+也就是说：
+- 模型相同
+- `batch_size` 相同
+- `nb_classes` 相同
+- `data_path` 相同
+- `resume` 相同
+- 评估的数据集列表相同
+- 只是在每次评估目录下多导出一个 JSON 文件
 
 ### 导出位置
 仍然保存在评估目录下：
@@ -162,7 +182,7 @@ CUDA_VISIBLE_DEVICES=0 python main_diagnosis.py \
 1. 准备二分类目录结构数据集
 2. 运行 `scripts/my_class_pretrain.sh` 训练模型
 3. 用 `scripts/eval_all_classification.sh` 做批量评估
-4. 如果要画单任务 AUROC 对比图，额外运行带 `--export_auroc_json` 的评估命令，生成 `auroc_results.json`
+4. 如果要保留可直接画 AUROC 的结果，运行 `scripts/eval_all_classification_json.sh` 或手动在评估命令后加 `--export_auroc_json`
 
 ---
 
