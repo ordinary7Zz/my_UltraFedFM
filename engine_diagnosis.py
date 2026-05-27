@@ -276,9 +276,11 @@ def evaluate(data_loader, model, device, epoch, logging, args):
     prediction_decode_list = []
     true_label_decode_list = []
     prediction_score_list = []
+    image_path_list = []
     for batch in metric_logger.log_every(data_loader, 10, header):
         images = batch[0]
-        target = batch[-1]
+        target = batch[1]
+        batch_image_paths = batch[2] if len(batch) > 2 else None
         images = images.to(device, non_blocking=True)
         target = target.to(device, non_blocking=True)
         true_label = F.one_hot(target.to(torch.int64), num_classes=args.nb_classes)
@@ -293,6 +295,8 @@ def evaluate(data_loader, model, device, epoch, logging, args):
             prediction_decode_list.extend(prediction_decode.cpu().detach().numpy())
             true_label_decode_list.extend(true_label_decode.cpu().detach().numpy())
             prediction_score_list.extend(prediction_softmax.cpu().detach().numpy())
+            if batch_image_paths is not None:
+                image_path_list.extend(batch_image_paths)
         batch_size = images.shape[0]
         total_loss += loss.item() * batch_size
         count += batch_size
@@ -388,6 +392,7 @@ def evaluate(data_loader, model, device, epoch, logging, args):
         'y_true': true_label_decode_list,
         'y_pred': prediction_decode_list,
         'y_score': prediction_score_list,
+        'image_paths': image_path_list,
         'ci': ci_stats,
         'metrics_consistent': metrics,
         'classwise_metrics_consistent': classwise_metrics,

@@ -29,16 +29,16 @@ RETINA_STD = (0.0342, 0.0535, 0.0484)
 class PartialImageFolder(datasets.ImageFolder):
     def __init__(self, root, transform=None, target_transform=None, subset_fraction=0.2):
         super(PartialImageFolder, self).__init__(root, transform=transform, target_transform=target_transform)
-        
+
         # Calculate the subset size
         self.subset_size = int(len(self.samples) * subset_fraction)
-        
+
         # Generate indices for the subset
         self.indices = torch.randperm(len(self.samples))[:self.subset_size]
-        
+
     def __len__(self):
         return self.subset_size
-    
+
     def __getitem__(self, index):
         actual_index = self.indices[index]
         path, target = self.samples[actual_index]
@@ -48,6 +48,17 @@ class PartialImageFolder(datasets.ImageFolder):
         if self.target_transform is not None:
             target = self.target_transform(target)
         return sample, target
+
+
+class EvalImageFolder(datasets.ImageFolder):
+    def __getitem__(self, index):
+        path, target = self.samples[index]
+        sample = self.loader(path)
+        if self.transform is not None:
+            sample = self.transform(sample)
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+        return sample, target, path
 
 
 def build_partial_dataset(is_train, subset_fraction, args):
@@ -65,11 +76,14 @@ def build_dataset(is_train, args):
     transform = build_transform(is_train, args)
 
     root = os.path.join(args.data_path, 'train' if is_train else 'test')
-    dataset = datasets.ImageFolder(root, transform=transform)
+    if not is_train and getattr(args, 'export_auroc_json', False):
+        dataset = EvalImageFolder(root, transform=transform)
+    else:
+        dataset = datasets.ImageFolder(root, transform=transform)
     # folders_to_include = ['BUSI', 'ERUS']
 
     # 初始化自定义数据集
-    # dataset = SelectiveImageFolder(root, folders_to_include=folders_to_include, transform=transform) 
+    # dataset = SelectiveImageFolder(root, folders_to_include=folders_to_include, transform=transform)
 
     print(dataset)
 

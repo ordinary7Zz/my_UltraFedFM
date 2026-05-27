@@ -28,6 +28,39 @@ def sanitize_name(name):
         return 'dataset'
     return name.replace('\\', '_').replace('/', '_').replace(' ', '_')
 
+
+def build_auroc_sample_records(test_stats, args):
+    if args.nb_classes != 2:
+        raise ValueError('--export_auroc_json only supports binary classification with --nb_classes 2.')
+
+    y_true = test_stats['y_true']
+    y_pred = test_stats['y_pred']
+    y_score = test_stats['y_score']
+    image_paths = test_stats.get('image_paths', [])
+    has_image_paths = len(image_paths) == len(y_true)
+    records = []
+
+    for idx, (true_label, predicted_class, score_row) in enumerate(zip(y_true, y_pred, y_score)):
+        prob_class_0 = float(score_row[0])
+        prob_class_1 = float(score_row[1])
+        confidence = float(score_row[int(predicted_class)])
+        record = {
+            'record_type': 'sample',
+            'selected_model': args.model,
+            'true_label': int(true_label),
+            'predicted_class': int(predicted_class),
+            'confidence': confidence,
+            'prob_class_0': prob_class_0,
+            'prob_class_1': prob_class_1,
+        }
+        if has_image_paths:
+            image_file = os.path.abspath(image_paths[idx])
+            record['image_file'] = image_file
+            record['image_name'] = os.path.basename(image_file)
+        records.append(record)
+
+    return records
+
 from pycm import *
 from pathlib import Path
 from tabulate import tabulate
@@ -149,6 +182,10 @@ def get_args_parser():
                         help='start epoch')
     parser.add_argument('--eval', action='store_true',
                         help='Perform evaluation only')
+    parser.add_argument('--export_auroc_json', action='store_true',
+                        help='Export eval results as sample-level AUROC JSON')
+    parser.add_argument('--export_json_name', default='auroc_results.json', type=str,
+                        help='Filename for exported AUROC JSON')
     parser.add_argument('--dist_eval', action='store_true', default=False,
                         help='Enabling distributed evaluation (recommended during training for faster monitor')
     parser.add_argument('--num_workers', default=10, type=int)
@@ -334,7 +371,14 @@ def main(args):
             for row in rows:
                 writer.writerow(row)
             f.close()
-                
+
+        if args.export_auroc_json:
+            sample_records = build_auroc_sample_records(test_stats, args)
+            export_path = os.path.join(args.log_dir, args.export_json_name)
+            with open(export_path, 'w', encoding='utf-8') as f:
+                json.dump(sample_records, f, ensure_ascii=False, indent=2)
+            logging.info('Saved AUROC JSON to %s', export_path)
+
         # overall stat
         cm.save_csv(args.log_dir+'/overall_stat.csv')
         # plot confusion matrix
