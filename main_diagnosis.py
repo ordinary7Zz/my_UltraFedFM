@@ -29,6 +29,11 @@ def sanitize_name(name):
     return name.replace('\\', '_').replace('/', '_').replace(' ', '_')
 
 
+def infer_dataset_name(args):
+    dataset_path = args.test_data_path or args.data_path
+    return sanitize_name(os.path.basename(os.path.normpath(dataset_path)))
+
+
 def build_auroc_sample_records(test_stats, args):
     if args.nb_classes != 2:
         raise ValueError('--export_auroc_json only supports binary classification with --nb_classes 2.')
@@ -162,7 +167,11 @@ def get_args_parser():
 
     # Dataset parameters
     parser.add_argument('--data_path', default='/datasets01/imagenet_full_size/061417/', type=str,
-                        help='dataset path')
+                        help='dataset root path used to derive train/test subdirectories when explicit paths are not provided')
+    parser.add_argument('--train_data_path', default='', type=str,
+                        help='path to the training dataset directory')
+    parser.add_argument('--test_data_path', default='', type=str,
+                        help='path to the test dataset directory')
     parser.add_argument('--nb_classes', default=1000, type=int,
                         help='number of the classification types')
 
@@ -508,7 +517,7 @@ if __name__ == '__main__':
         args.output_dir = exp_path
         args.log_dir    = exp_path
     else:
-        dataset_name = sanitize_name(os.path.basename(os.path.normpath(args.data_path)))
+        dataset_name = infer_dataset_name(args)
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
         args.log_dir = os.path.join('/'.join(args.resume.split('/')[:-1]), f'eval_{dataset_name}_{timestamp}')
         os.makedirs(args.log_dir, exist_ok=True)

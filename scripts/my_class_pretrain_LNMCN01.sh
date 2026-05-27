@@ -3,6 +3,7 @@ CUDA_VISIBLE_DEVICES=0 python main_diagnosis.py \
     --batch_size 32 \
     --epochs 10 \
     --nb_classes 2 \
-    --data_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/Classifaction_Data/Lymph_Node_Metastasis_fake/by_LNM_CN01_train \
+    --train_data_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/Classifaction_Data/Lymph_Node_Metastasis_fake/by_LNM_CN01_train \
+    --test_data_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/Classifaction_Data/Lymph_Node_Metastasis_fake/by_LNM_CN01_test \
     --finetune ./output_dir/checkpoint.pth \
     --note LNMCN01_train

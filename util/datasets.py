@@ -61,10 +61,17 @@ class EvalImageFolder(datasets.ImageFolder):
         return sample, target, path
 
 
+def resolve_dataset_root(args, is_train):
+    explicit_root = args.train_data_path if is_train else args.test_data_path
+    if explicit_root:
+        return explicit_root
+    return os.path.join(args.data_path, 'train' if is_train else 'test')
+
+
 def build_partial_dataset(is_train, subset_fraction, args):
     transform = build_transform(is_train, args)
 
-    root = os.path.join(args.data_path, 'train' if is_train else 'test')
+    root = resolve_dataset_root(args, is_train)
     dataset = PartialImageFolder(root, transform=transform, target_transform=None, subset_fraction=subset_fraction)
 
 
@@ -75,7 +82,7 @@ def build_partial_dataset(is_train, subset_fraction, args):
 def build_dataset(is_train, args):
     transform = build_transform(is_train, args)
 
-    root = os.path.join(args.data_path, 'train' if is_train else 'test')
+    root = resolve_dataset_root(args, is_train)
     if not is_train and getattr(args, 'export_auroc_json', False):
         dataset = EvalImageFolder(root, transform=transform)
     else:
