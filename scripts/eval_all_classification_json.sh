@@ -10,27 +10,37 @@ echo "=========================================="
 
 # 数据集列表
 DATASETS=("BM" "FTCPTC" "LNM_CN01")
+RESUMES=(
+    "./output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/checkpoint-best_auroc.pth"
+    "./output_dir/FTCPTC_train/log_2026-05-28_05:31:22/checkpoint-best_auroc.pth"
+    "./output_dir/LNMCN01_train/log_2026-05-28_05:10:07/checkpoint-best_auroc.pth"
+)
 NB_CLASSES=2  # 良性/恶性二分类
 
-# 循环评估每个数据集
+# 循环评估每个数据集和每个 checkpoint
 for DATASET in "${DATASETS[@]}"; do
-    echo ""
-    echo "=========================================="
-    echo "开始评估: ${DATASET}"
-    echo "=========================================="
+    for RESUME in "${RESUMES[@]}"; do
+        CHECKPOINT_NAME="$(basename "${RESUME}")"
 
-    CUDA_VISIBLE_DEVICES='0' python inference_diagnosis_json.py \
-        --model vit_base_patch16 \
-        --batch_size 16 \
-        --nb_classes ${NB_CLASSES} \
-        --data_path ./dataset/Classification/${DATASET} \
-        --resume ./output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/checkpoint-best_auroc.pth
+        echo ""
+        echo "=========================================="
+        echo "开始评估: ${DATASET}"
+        echo "使用 checkpoint: ${CHECKPOINT_NAME}"
+        echo "=========================================="
 
-    if [ $? -eq 0 ]; then
-        echo "✓ ${DATASET} 分类评估完成"
-    else
-        echo "✗ ${DATASET} 分类评估失败"
-    fi
+        CUDA_VISIBLE_DEVICES='0' python inference_diagnosis_json.py \
+            --model vit_base_patch16 \
+            --batch_size 16 \
+            --nb_classes ${NB_CLASSES} \
+            --data_path ./dataset/Classification/${DATASET} \
+            --resume "${RESUME}"
+
+        if [ $? -eq 0 ]; then
+            echo "✓ ${DATASET} 使用 ${CHECKPOINT_NAME} 分类评估完成"
+        else
+            echo "✗ ${DATASET} 使用 ${CHECKPOINT_NAME} 分类评估失败"
+        fi
+    done
 done
 
 echo ""
