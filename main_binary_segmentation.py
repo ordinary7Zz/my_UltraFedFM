@@ -36,6 +36,31 @@ def sanitize_name(name):
     return name.replace('\\', '_').replace('/', '_').replace(' ', '_')
 
 
+def dataset_name_from_path(path):
+    normalized = os.path.normpath(path)
+    base = os.path.basename(normalized)
+    if base in {'image', 'mask'}:
+        base = os.path.basename(os.path.dirname(normalized))
+    return sanitize_name(base)
+
+
+def list_files_by_stem(directory):
+    files = {}
+    for name in os.listdir(directory):
+        if name.startswith('.'):
+            continue
+        stem = os.path.splitext(name)[0]
+        files[stem] = os.path.join(directory, name)
+    return files
+
+
+def build_matched_samples(image_dir, mask_dir):
+    image_files = list_files_by_stem(image_dir)
+    mask_files = list_files_by_stem(mask_dir)
+    samples = sorted(set(image_files) & set(mask_files))
+    return samples, image_files, mask_files
+
+
 def bootstrap_ci(stat_fn, n, n_boot=2000, alpha=0.05, seed=42):
     rng = np.random.default_rng(seed)
     values = []
@@ -57,12 +82,13 @@ def bootstrap_ci(stat_fn, n, n_boot=2000, alpha=0.05, seed=42):
     return point_estimate, lower, upper
 
 class TrainData(Dataset):
-    def __init__(self, args, mode):
-        self.args      = args
-        self.mode      = mode
-        self.samples   = [name for name in os.listdir(args.datapath+mode+'/image') if name[0]!="."]
+    def __init__(self, args, image_dir, mask_dir):
+        self.args = args
+        self.image_dir = image_dir
+        self.mask_dir = mask_dir
+        self.samples, self.image_files, self.mask_files = build_matched_samples(image_dir, mask_dir)
         label_fraction = 1
-        self.samples =  random.sample(self.samples, int(len(self.samples)*label_fraction))
+        self.samples = random.sample(self.samples, int(len(self.samples) * label_fraction))
         self.transform = A.Compose([
             A.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
             A.Resize(args.img_size, args.img_size),
@@ -73,23 +99,25 @@ class TrainData(Dataset):
         ])
 
     def __getitem__(self, idx):
-        name  = self.samples[idx]
-        image = cv2.imread(self.args.datapath+self.mode+'/image/'+name)
+        stem = self.samples[idx]
+        image = cv2.imread(self.image_files[stem])
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        mask  = cv2.imread(self.args.datapath+self.mode+'/mask/'+name, cv2.IMREAD_GRAYSCALE)/255.0
-        pair  = self.transform(image=image, mask=mask)
+        mask = cv2.imread(self.mask_files[stem], cv2.IMREAD_GRAYSCALE) / 255.0
+        pair = self.transform(image=image, mask=mask)
         return pair['image'], pair['mask']
 
     def __len__(self):
         return len(self.samples)
 
+
 class ValData(Dataset):
-    def __init__(self, args, mode):
-        self.args      = args
-        self.mode      = mode
-        self.samples   = [name for name in os.listdir(args.datapath+mode+'/image') if name[0]!="."]
+    def __init__(self, args, image_dir, mask_dir):
+        self.args = args
+        self.image_dir = image_dir
+        self.mask_dir = mask_dir
+        self.samples, self.image_files, self.mask_files = build_matched_samples(image_dir, mask_dir)
         label_fraction = 1
-        self.samples =  random.sample(self.samples, int(len(self.samples)*label_fraction))
+        self.samples = random.sample(self.samples, int(len(self.samples) * label_fraction))
         self.img_transform = A.Compose([
             A.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
             A.Resize(args.img_size, args.img_size),
@@ -101,13 +129,13 @@ class ValData(Dataset):
         ])
 
     def __getitem__(self, idx):
-        name  = self.samples[idx]
-        image = cv2.imread(self.args.datapath+self.mode+'/image/'+name)
+        stem = self.samples[idx]
+        image = cv2.imread(self.image_files[stem])
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        mask  = cv2.imread(self.args.datapath+self.mode+'/mask/'+name, cv2.IMREAD_GRAYSCALE)/255.0
+        mask = cv2.imread(self.mask_files[stem], cv2.IMREAD_GRAYSCALE) / 255.0
         image = self.img_transform(image=image)['image']
         mask = self.mask_transform(image=mask)['image']
-        return image, mask, name
+        return image, mask, os.path.basename(self.image_files[stem])
 
     def __len__(self):
         return len(self.samples)
@@ -200,14 +228,14 @@ class Train(object):
         self.args      = args 
         # Only load training data if not in eval/plot mode
         if not args.eval and not args.plot and not args.eval_instance:
-            self.train_data    = TrainData(args, mode='train')
+            self.train_data    = TrainData(args, args.train_image_path, args.train_mask_path)
             self.train_loader  = DataLoader(self.train_data, batch_size=int(args.batch_size), pin_memory=True, shuffle=True, num_workers=args.num_workers)
             print('train dataset: ', len(self.train_data))
         else:
             self.train_data = None
             self.train_loader = None
-        
-        self.val_data      = ValData(args, mode='test')
+
+        self.val_data      = ValData(args, args.test_image_path, args.test_mask_path)
         self.val_loader    = DataLoader(self.val_data, batch_size=1, pin_memory=True, shuffle=True, num_workers=args.num_workers)
         print('val dataset: ', len(self.val_data))
         ## model
@@ -432,6 +460,10 @@ class Train(object):
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--datapath'    , type=str,     default='../data/train'         )
+    parser.add_argument('--train_image_path', type=str,  default=None                    )
+    parser.add_argument('--train_mask_path', type=str,   default=None                    )
+    parser.add_argument('--test_image_path', type=str,   default=None                    )
+    parser.add_argument('--test_mask_path', type=str,    default=None                    )
     parser.add_argument('--savepath'    , type=str,     default='./out'                 )
     parser.add_argument('--model_name'  , type=str,     default='vit_base_patch16'      )
     parser.add_argument('--mode'        , type=str,     default='train'                 )
@@ -455,7 +487,8 @@ if __name__=='__main__':
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_id
     if args.plot or args.eval:
         save_path = os.path.join(args.savepath, args.note)
-        dataset_name = sanitize_name(args.note if args.note else os.path.basename(os.path.normpath(args.datapath)))
+        dataset_source = args.note if args.note else (args.test_image_path or args.train_image_path or args.datapath)
+        dataset_name = dataset_name_from_path(dataset_source)
         timestamp = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
         mode_prefix = 'plot' if args.plot else 'eval'
         args.exp_path = os.path.join('/'.join(args.resume.split('/')[:-1]), f'{mode_prefix}_{dataset_name}_{timestamp}')
