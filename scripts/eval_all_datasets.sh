@@ -17,15 +17,23 @@ for DATASET in "${DATASETS[@]}"; do
     echo "=========================================="
     echo "开始评估: ${DATASET}"
     echo "=========================================="
-    
+
+    TRAIN_IMAGE_PATH="./dataset/Segmentation/${DATASET}/train/image"
+    TRAIN_MASK_PATH="./dataset/Segmentation/${DATASET}/train/mask"
+    TEST_IMAGE_PATH="./dataset/Segmentation/${DATASET}/test/image"
+    TEST_MASK_PATH="./dataset/Segmentation/${DATASET}/test/mask"
+
     CUDA_VISIBLE_DEVICES='0' python main_binary_segmentation.py \
-        --datapath ./dataset/Segmentation/${DATASET}/ \
+        --train_image_path "${TRAIN_IMAGE_PATH}" \
+        --train_mask_path "${TRAIN_MASK_PATH}" \
+        --test_image_path "${TEST_IMAGE_PATH}" \
+        --test_mask_path "${TEST_MASK_PATH}" \
         --savepath ./output_dir/${DATASET}/ \
         --batch_size 16 \
         --note ${DATASET} \
         --resume ./output_dir/epoch_bestDice.pth \
         --eval
-    
+
     if [ $? -eq 0 ]; then
         echo "✓ ${DATASET} 评估完成"
     else
