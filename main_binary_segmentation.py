@@ -273,7 +273,7 @@ class Train(object):
     def train(self):
         global_step = 0
         EARLY_STOPS = 100
-        for epoch in range(100000):
+        for epoch in range(self.args.epoch):
             local_step = 0
             self.model.train()
             # if epoch+1 in [64, 96]:
@@ -308,10 +308,6 @@ class Train(object):
 
             self.val(self.val_loader, self.model, epoch, self.args.exp_path)
 
-            if epoch - self.best_epoch > EARLY_STOPS:
-                print (str(EARLY_STOPS), "epoches didn't improve, early stop.")
-                print ("Best dice:", self.best_dice)
-                break
             # if (epoch+1)%8==0:
             #     torch.save(self.model.state_dict(), self.args.savepath+'/model-'+str(epoch+1))
 
