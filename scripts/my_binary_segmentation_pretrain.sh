@@ -12,4 +12,4 @@ CUDA_VISIBLE_DEVICES='1' python main_binary_segmentation.py \
     --batch_size 96 \
     --epoch 10 \
     --note vit_b_ssl_usffm \
-    --pretrained ./output_dir/pretrained_ultrafedfm/log_2024-07-16_13:53:08/checkpoint.pth
+    --pretrained ./output_dir/epoch_bestDice.pth
