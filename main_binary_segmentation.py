@@ -203,8 +203,8 @@ def evaluate(pred, gt):
     FN = pred_binary_inverse.mul(gt_binary).sum()
 
     if TP.item() == 0:
-        TP = torch.Tensor([1]).cuda()
-        
+        TP = torch.tensor(1.0, device=pred.device)
+
     # IoU
     IoU = TP / (TP + FP + FN)
     # DICE
@@ -219,7 +219,7 @@ def evaluate(pred, gt):
 
 
     
-    return IoU.cpu().numpy(), DICE.cpu().numpy(), mae
+    return IoU.item(), DICE.item(), float(mae)
 
 
 class Train(object):
