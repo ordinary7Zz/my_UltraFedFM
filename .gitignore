@@ -3,9 +3,7 @@ output_dir/*
 dataset/
 pretrained/
 
-# 保留评估日志
-!output_dir/eval_logs/
-!output_dir/eval_logs/**
+
 
 # Python 缓存
 __pycache__/
@@ -22,3 +20,7 @@ __pycache__/
 .DS_Store
 *.swp
 *.swo
+
+# 保留评估日志
+!output_dir/eval_logs/
+!output_dir/eval_logs/**
