@@ -128,7 +128,7 @@ CUDA_VISIBLE_DEVICES=0 python inference_diagnosis_json.py \
   --model vit_base_patch16 \
   --batch_size 16 \
   --nb_classes 2 \
-  --data_path ./dataset/Classification/DDTI \
+  --data_path ./dataset/Classification/finall_data \
   --resume ./output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/checkpoint-best_auroc.pth
 ```
 
