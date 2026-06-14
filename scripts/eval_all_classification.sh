@@ -9,7 +9,7 @@ echo "批量评估甲状腺良恶性分类任务"
 echo "=========================================="
 
 # 数据集列表
-DATASETS=("DDTI" "TN3K" "ThyroidXL" "TN5K")
+DATASETS=("finall_data" "DDTI" "TN3K" "ThyroidXL" "TN5K")
 NB_CLASSES=2  # 良性/恶性二分类
 
 # 循环评估每个数据集
