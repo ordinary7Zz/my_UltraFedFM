@@ -5,7 +5,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 # ====== Config ======
-DATASETS=("finall_data" "TN3K" "DDTI" "ThyroidXL" "PKTN" "TN5K")
+DATASETS=("FinalData" "TN3K" "DDTI" "ThyroidXL" "PKTN" "TN5K")
 DATA_ROOT="./dataset/Segmentation"
 CUDA_DEVICE="0"
 BATCH_SIZE=16
