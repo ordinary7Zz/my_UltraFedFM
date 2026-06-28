@@ -274,37 +274,41 @@ class Train(object):
         global_step = 0
         EARLY_STOPS = 100
         for epoch in range(self.args.epoch):
-            local_step = 0
             self.model.train()
-            # if epoch+1 in [64, 96]:
-            #     self.optimizer.param_groups[0]['lr'] *= 0.5
-            #     self.optimizer.param_groups[1]['lr'] *= 0.5
+            total_loss_ce = 0.0
+            total_loss_dice = 0.0
+            total_loss = 0.0
+            num_batches = 0
 
             for image, mask in self.train_loader:
                 image, mask = image.cuda().float(), mask.cuda().float()
 
                 pred = self.model(image)
                 pred = F.interpolate(pred, size=mask.shape[1:], mode='bilinear', align_corners=True)[:,0,:,:]
-                # pred = pred.sigmoid()
                 loss_ce, loss_dice = bce_dice(pred, mask)
 
                 self.optimizer.zero_grad()
-                # with apex.amp.scale_loss(loss_ce+loss_dice, self.optimizer) as scale_loss:
                 loss = loss_ce + loss_dice
                 loss.backward()
                 self.optimizer.step()
 
-                ## log
+                ## log (tensorboard only, no console print)
                 global_step += 1
-                local_step  += 1
-                self.logger.add_scalar('lr'  , self.optimizer.param_groups[0]['lr'], global_step=global_step)
-                self.logger.add_scalars('loss', {'ce':loss_ce.item(), 'dice':loss_dice.item()}, global_step=global_step)
-                if global_step % 10 == 0:
-                    print(f'{datetime.now()} | epoch: {epoch+1:d}/{self.args.epoch:d} | step:{local_step:d}/{int(len(self.train_loader)):d} | lr={self.optimizer.param_groups[0]["lr"]:.6f} | ce={loss_ce.item():.6f} | dice={loss_dice.item():.6f}')
-                    logging.info(f'{datetime.now()} | epoch: {epoch+1:d}/{self.args.epoch:d} | step:{local_step:d}/{int(len(self.train_data)):d} | lr={self.optimizer.param_groups[0]["lr"]:.6f} | ce={loss_ce.item():.6f} | dice={loss_dice.item():.6f}')
-                    # print('%s | step:%d/%d/%d | lr=%.6f | ce=%.6f | dice=%.6f'%(datetime.now(), global_step, epoch+1, self.args.epoch, self.optimizer.param_groups[0]['lr'], loss_ce.item(), loss_dice.item()))
-                    # logging.info('%s | step:%d/%d/%d | lr=%.6f | ce=%.6f | dice=%.6f'%(datetime.now(), global_step, epoch+1, self.args.epoch, self.optimizer.param_groups[0]['lr'], loss_ce.item(), loss_dice.item()))
+                self.logger.add_scalar('lr', self.optimizer.param_groups[0]['lr'], global_step=global_step)
+                self.logger.add_scalars('loss', {'ce': loss_ce.item(), 'dice': loss_dice.item()}, global_step=global_step)
+
+                total_loss_ce += loss_ce.item()
+                total_loss_dice += loss_dice.item()
+                total_loss += loss.item()
+                num_batches += 1
+
             self.scheduler.step()
+
+            avg_ce = total_loss_ce / num_batches
+            avg_dice = total_loss_dice / num_batches
+            avg_loss = total_loss / num_batches
+            print(f'{datetime.now()} | epoch: {epoch+1:d}/{self.args.epoch:d} | lr={self.optimizer.param_groups[0]["lr"]:.6f} | ce={avg_ce:.6f} | dice={avg_dice:.6f} | loss={avg_loss:.6f}')
+            logging.info(f'{datetime.now()} | epoch: {epoch+1:d}/{self.args.epoch:d} | lr={self.optimizer.param_groups[0]["lr"]:.6f} | ce={avg_ce:.6f} | dice={avg_dice:.6f} | loss={avg_loss:.6f}')
 
             self.val(self.val_loader, self.model, epoch, self.args.exp_path)
 
