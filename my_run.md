@@ -237,13 +237,15 @@ python main_binary_segmentation.py \
 
 ```bash
 python main_binary_segmentation.py \
-    --train_image_path ./dataset/xxx/train/image \
-    --train_mask_path ./dataset/xxx/train/mask \
-    --test_image_path ./dataset/xxx/test/image \
-    --test_mask_path ./dataset/xxx/test/mask \
-    --savepath ./output_dir/xxx \
-    --resume ./output_dir/xxx/.../epoch_bestDice.pth \
-    --eval
+    --train_image_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/sample/images \
+    --train_mask_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/sample/masks \
+    --test_image_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/sample/images \
+    --test_mask_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/sample/masks \
+    --savepath ./my_infer_output/sample \
+    --note vit_b_ssl_usffm \
+    --resume ./my_pth/nodule_seg/epoch_bestDice.pth \
+    --eval \
+    --plot
 ```
 
 批量评估脚本：`scripts/my_eval_binary_segmentation_multi.sh`，对 Augtrain / finall_data / TN3K / DDTI / ThyroidXL / PKTN / TN5K 共 7 个数据集依次评估。
@@ -257,6 +259,7 @@ python main_binary_segmentation.py \
     --test_image_path ./dataset/xxx/test/image \
     --test_mask_path ./dataset/xxx/test/mask \
     --savepath ./output_dir/xxx \
+    --note vit_b_ssl_usffm \
     --resume ./output_dir/xxx/.../epoch_bestDice.pth \
     --plot
 ```

@@ -4,11 +4,10 @@ import torch
 import argparse
 import numpy as np
 import torch.nn.functional as F
+import albumentations as A
 
-from PIL import Image
 from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms
-from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
+from albumentations.pytorch import ToTensorV2
 
 import segmentation_models_pytorch as smp
 
@@ -30,10 +29,11 @@ class FlatImageDataset(Dataset):
                 self.image_paths.append(os.path.join(root, fname))
                 self.image_names.append(fname)
 
-        self.transform = transforms.Compose([
-            transforms.Resize((img_size, img_size)),
-            transforms.ToTensor(),
-            transforms.Normalize(IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD),
+        # Match original ValData preprocessing: Normalize → Resize → ToTensor
+        self.transform = A.Compose([
+            A.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+            A.Resize(img_size, img_size),
+            ToTensorV2(),
         ])
 
     def __len__(self):
@@ -42,10 +42,14 @@ class FlatImageDataset(Dataset):
     def __getitem__(self, index):
         path = self.image_paths[index]
         name = self.image_names[index]
-        image = Image.open(path).convert('RGB')
-        orig_size = image.size[::-1]  # (H, W)
-        image = self.transform(image)
-        return image, name, orig_size
+
+        # Match original: cv2.imread → BGR2RGB
+        image = cv2.imread(path)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        orig_h, orig_w = image.shape[:2]
+
+        image = self.transform(image=image)['image']
+        return image, name, orig_h, orig_w
 
 
 def get_args_parser():
@@ -71,19 +75,17 @@ def get_args_parser():
 @torch.no_grad()
 def run_inference(data_loader, model, device, threshold, output_dir):
     model.eval()
-    for images, names, orig_sizes in data_loader:
+    for images, names, orig_hs, orig_ws in data_loader:
         images = images.to(device, non_blocking=True)
-        outputs = model(images)  # (B, 1, H, W) logits
+        outputs = model(images)  # (B, 1, H, W), activation='sigmoid' already applied
 
         for i in range(images.size(0)):
             name = names[i]
-            orig_h, orig_w = orig_sizes[0][i].item(), orig_sizes[1][i].item()
+            orig_h, orig_w = orig_hs[i].item(), orig_ws[i].item()
 
             pred = outputs[i]  # (1, H, W)
-            # Resize to original size
             pred = F.interpolate(pred.unsqueeze(0), size=(orig_h, orig_w), mode='bilinear', align_corners=False)
             pred = pred.squeeze()  # (orig_H, orig_W)
-            pred = torch.sigmoid(pred)
             mask = (pred > threshold).cpu().numpy().astype(np.uint8) * 255
 
             out_name = os.path.splitext(name)[0] + '.png'

@@ -482,7 +482,7 @@ if __name__=='__main__':
     
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_id
     if args.plot or args.eval:
-        save_path = os.path.join(args.savepath, args.note)
+        save_path = os.path.join(args.savepath, args.note) if args.note else args.savepath
         dataset_source = args.note if args.note else (args.test_image_path or args.train_image_path or args.datapath)
         dataset_name = dataset_name_from_path(dataset_source)
         timestamp = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
@@ -490,7 +490,7 @@ if __name__=='__main__':
         args.exp_path = os.path.join('/'.join(args.resume.split('/')[:-1]), f'{mode_prefix}_{dataset_name}_{timestamp}')
         os.makedirs(args.exp_path, exist_ok=True)
     else:
-        save_path          = os.path.join(args.savepath, args.note)
+        save_path          = os.path.join(args.savepath, args.note) if args.note else args.savepath
         current_timestamp  = datetime.now().timestamp()
         current_datetime   = datetime.fromtimestamp(current_timestamp+29220)  # different time zone
         formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H:%M:%S")
