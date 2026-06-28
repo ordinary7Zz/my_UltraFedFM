@@ -198,19 +198,56 @@ python inference_diagnosis_json.py ...
 
 ---
 
-## 7. 推荐使用顺序
+## 7. 无标签扁平目录推理
+
+当只有一批无标签图片（所有图片在同一目录下，无子目录），需要直接获取每张图的预测类别时，使用 `inference_flat.py`。
+
+### 使用方式
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python inference_flat.py \
+  --data_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/sample/images \
+  --resume ./output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/checkpoint-best_auroc.pth \
+  --nb_classes 2
+  --output_csv ./BM.csv
+```
+
+### 参数说明
+
+| 参数 | 必填 | 说明 |
+|---|---|---|
+| `--data_path` | 是 | 图片目录，所有图片直接放在该目录下 |
+| `--resume` | 是 | 权重 `.pth` 文件路径 |
+| `--nb_classes` | 否(默认2) | 分类数 |
+| `--model` | 否 | 模型名，默认 `vit_base_patch16` |
+| `--batch_size` | 否 | 批量大小，默认 16 |
+| `--output_csv` | 否 | 输出路径，默认生成在 checkpoint 同级目录下 |
+
+### 输出 CSV 格式
+
+| 列名 | 内容 |
+|---|---|
+| `image_path` | 图片文件名（不含路径） |
+| `predicted_class` | 预测类别编号 |
+| `confidence` | 该预测类别的概率值 |
+
+---
+
+## 8. 推荐使用顺序
 如果现在要复现当前流程，建议按下面顺序：
 
 1. 准备二分类目录结构数据集
 2. 运行 `scripts/my_class_pretrain.sh` 训练模型
 3. 用 `scripts/eval_all_classification.sh` 做批量评估
 4. 如果要保留可直接画 AUROC 的结果，运行 `scripts/eval_all_classification_json.sh`，或直接调用 `inference_diagnosis_json.py`
+5. 如果要对无标签扁平目录做推理，使用 `inference_flat.py`
 
 ---
 
-## 8. 一句话总结
+## 9. 一句话总结
 当前项目里，甲状腺良恶性二分类的最新用法是：
 
 - 用 `main_diagnosis.py` 做训练和常规评估
 - 用 `checkpoint-best_auroc.pth` 做跨数据集评估
 - 用 `inference_diagnosis_json.py` 或 `scripts/eval_all_classification_json.sh` 导出可供 AUROC 绘图脚本直接读取的 JSON 结果
+- 用 `inference_flat.py` 对无标签图片目录做快速推理，输出 CSV
