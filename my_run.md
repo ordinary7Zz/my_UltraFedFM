@@ -64,8 +64,8 @@ CUDA_VISIBLE_DEVICES=0 python main_diagnosis.py \
 # 多分类（如 TIRADS 5 分类）
 CUDA_VISIBLE_DEVICES=0 python main_diagnosis.py \
   --model vit_base_patch16 \
-  --batch_size 32 \
-  --epochs 40 \
+  --batch_size 16 \
+  --epochs 20 \
   --nb_classes 5 \
   --data_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/Cine-Clip/Cine-Clip_by_TIRADS/images \
   --finetune ./output_dir/checkpoint.pth \
