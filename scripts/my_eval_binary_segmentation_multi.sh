@@ -15,7 +15,7 @@ NOTE="vit_b_ssl_usffm"
 RESUME_PATH="./output_dir/dataset_4_seg/vit_b_ssl_usffm/log_2026-05-31_07:35:05/epoch_bestDice.pth"
 
 # Optional: where to store console logs
-LOG_DIR="./output_dir/eval_logs"
+LOG_DIR="./output_dir/segmentation/eval_logs"
 mkdir -p "${LOG_DIR}"
 
 if [[ ! -f "${RESUME_PATH}" ]]; then
