@@ -215,16 +215,8 @@ dataset/
 ### 10.1 训练
 
 ```bash
-python main_binary_segmentation.py \
-    --train_image_path ./dataset/xxx/train/image \
-    --train_mask_path ./dataset/xxx/train/mask \
-    --test_image_path ./dataset/xxx/test/image \
-    --test_mask_path ./dataset/xxx/test/mask \
-    --savepath ./output_dir/xxx \
-    --batch_size 96 \
-    --epoch 128 \
-    --note vit_b_ssl_usffm \
-    --pretrained ./output_dir/pretrained_ultrafedfm/.../checkpoint.pth
+./scripts/my_train_seg_nodule.sh
+./scripts/my_train_seg_gland.sh
 ```
 
 关键参数：
