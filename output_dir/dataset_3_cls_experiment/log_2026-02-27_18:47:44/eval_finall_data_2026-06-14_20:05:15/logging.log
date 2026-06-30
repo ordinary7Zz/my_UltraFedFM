@@ -1,0 +1,4 @@
+[2026-06-14 08:05:15 PM-inference_diagnosis_json.py-INFO:Eval root: ./dataset/Classification/finall_data]
+[2026-06-14 08:05:15 PM-inference_diagnosis_json.py-INFO:class_to_idx: {'0': 0, '1': 1}]
+[2026-06-14 08:05:21 PM-inference_diagnosis_json.py-INFO:Resume checkpoint ./output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/checkpoint-best_auroc.pth]
+[2026-06-14 08:05:49 PM-inference_diagnosis_json.py-INFO:Saved AUROC JSON to /mnt/wangbd8/workspace/ThyroidAgent/UltraFedFM/output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/eval_finall_data_2026-06-14_20:05:15/auroc_results.json]

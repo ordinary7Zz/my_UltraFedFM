@@ -1,0 +1,7 @@
+[2026-04-29 08:41:36 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/TN5K/TN5K | 0.01 |   128   |      16      |     0.0005     | TN5K   |]
+[2026-04-29 08:41:46 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2026-04-29 08:42:17 PM-main_binary_segmentation.py-INFO:MAE: 0.03337479831578043 HD95: 35.31963044083118 IoU: 0.4526578193353635 Dice: 0.5616479610004899]
+[2026-04-29 08:42:17 PM-main_binary_segmentation.py-INFO:95% CI | HD95 [33.039688620129226, 37.68506273934841] Dice [0.5424106303200231, 0.58130981029602]]

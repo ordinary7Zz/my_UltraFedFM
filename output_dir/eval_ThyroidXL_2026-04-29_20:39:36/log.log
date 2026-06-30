@@ -1,0 +1,7 @@
+[2026-04-29 08:39:36 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath               |  lr  |  epoch  |  batch_size  |  weight_decay  | note      |
+|----|----------------------------------|------|---------|--------------|----------------|-----------|
+|    | ./output_dir/ThyroidXL/ThyroidXL | 0.01 |   128   |      16      |     0.0005     | ThyroidXL |]
+[2026-04-29 08:39:47 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2026-04-29 08:40:43 PM-main_binary_segmentation.py-INFO:MAE: 0.037524316454865196 HD95: 28.052851550672436 IoU: 0.5542393268262342 Dice: 0.6747635571508975]
+[2026-04-29 08:40:43 PM-main_binary_segmentation.py-INFO:95% CI | HD95 [26.740054593053795, 29.41458699132361] Dice [0.6634737613623848, 0.6851269097872834]]

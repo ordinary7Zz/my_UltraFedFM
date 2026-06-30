@@ -1,0 +1,7 @@
+[2026-04-29 08:38:56 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/DDTI/DDTI | 0.01 |   128   |      16      |     0.0005     | DDTI   |]
+[2026-04-29 08:39:09 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2026-04-29 08:39:32 PM-main_binary_segmentation.py-INFO:MAE: 0.04632473689855568 HD95: 12.83250819214472 IoU: 0.7289381472635016 Dice: 0.82931180981213]
+[2026-04-29 08:39:32 PM-main_binary_segmentation.py-INFO:95% CI | HD95 [11.581732128319597, 14.20543901561942] Dice [0.8178804993155182, 0.8402658783720067]]

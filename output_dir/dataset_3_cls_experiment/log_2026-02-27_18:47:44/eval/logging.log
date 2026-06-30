@@ -1,0 +1,40 @@
+[2026-02-27 11:14:55 AM-engine_diagnosis.py-INFO:TEST Epoch:0* ACC 56.734 Precision 0.579 Recall 0.676 F1 0.505 AUROC 0.752 AUPR 0.648 SPE 0.676 Loss 0.790 
+ Confusion Matrix 
+ tensor([[161, 143],
+        [  8,  37]], device='cuda:0')]
+[2026-02-27 11:14:55 AM-main_diagnosis.py-INFO:
+Class stat:
+|  Class  |  Accuracy  |  Precision  |    F1    |  AUROC   |   AUPR   |
+|---------|------------|-------------|----------|----------|----------|
+|    0    |  0.567335  |  0.952663   | 0.680761 | 0.675914 | 0.741134 |
+|    1    |  0.567335  |  0.205556   | 0.328889 | 0.675914 | 0.513889 |]
+[2026-02-27 11:15:10 AM-engine_diagnosis.py-INFO:TEST Epoch:0* ACC 77.362 Precision 0.761 Recall 0.765 F1 0.763 AUROC 0.846 AUPR 0.842 SPE 0.765 Loss 0.486 
+ Confusion Matrix 
+ tensor([[303,  75],
+        [ 64, 172]], device='cuda:0')]
+[2026-02-27 11:15:10 AM-main_diagnosis.py-INFO:
+Class stat:
+|  Class  |  Accuracy  |  Precision  |    F1    |  AUROC  |   AUPR   |
+|---------|------------|-------------|----------|---------|----------|
+|    0    |  0.773616  |  0.825613   | 0.813423 | 0.7652  |  0.8136  |
+|    1    |  0.773616  |  0.696356   | 0.712215 | 0.7652  | 0.712585 |]
+[2026-02-27 11:15:27 AM-engine_diagnosis.py-INFO:TEST Epoch:0* ACC 83.062 Precision 0.836 Recall 0.825 F1 0.828 AUROC 0.924 AUPR 0.923 SPE 0.825 Loss 0.376 
+ Confusion Matrix 
+ tensor([[1005,  115],
+        [ 239,  731]], device='cuda:0')]
+[2026-02-27 11:15:28 AM-main_diagnosis.py-INFO:
+Class stat:
+|  Class  |  Accuracy  |  Precision  |    F1    |  AUROC   |   AUPR   |
+|---------|------------|-------------|----------|----------|----------|
+|    0    |  0.830622  |  0.807878   | 0.850254 | 0.825465 |  0.8526  |
+|    1    |  0.830622  |  0.864066   | 0.805066 | 0.825465 | 0.808837 |]
+[2026-02-27 11:15:43 AM-engine_diagnosis.py-INFO:TEST Epoch:0* ACC 87.700 Precision 0.851 Recall 0.828 F1 0.838 AUROC 0.930 AUPR 0.906 SPE 0.828 Loss 0.303 
+ Confusion Matrix 
+ tensor([[194,  75],
+        [ 48, 683]], device='cuda:0')]
+[2026-02-27 11:15:43 AM-main_diagnosis.py-INFO:
+Class stat:
+|  Class  |  Accuracy  |  Precision  |    F1    |  AUROC   |   AUPR   |
+|---------|------------|-------------|----------|----------|----------|
+|    0    |   0.877    |  0.801653   | 0.759295 | 0.827763 | 0.761421 |
+|    1    |   0.877    |  0.901055   | 0.917394 | 0.827763 | 0.917696 |]

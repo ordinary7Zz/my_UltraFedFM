@@ -1,0 +1,91 @@
+{
+  "source": "/mnt/wangbd8/workspace/ThyroidAgent/UltraFedFM/output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/eval_finall_data_2026-06-14_20:06:23/auroc_results.json",
+  "schema": "current",
+  "n_samples": 1854,
+  "n_positive": 1428,
+  "n_negative": 426,
+  "threshold": 0.5,
+  "bootstrap": {
+    "n_boot": 2000,
+    "ci": 0.95,
+    "seed": 0
+  },
+  "metrics": {
+    "accuracy": {
+      "mean": 0.8642,
+      "CI95": [
+        0.8474,
+        0.8792
+      ]
+    },
+    "precision": {
+      "mean": 0.9125,
+      "CI95": [
+        0.897,
+        0.9268
+      ]
+    },
+    "recall": {
+      "mean": 0.9111,
+      "CI95": [
+        0.8956,
+        0.9258
+      ]
+    },
+    "f1": {
+      "mean": 0.9117,
+      "CI95": [
+        0.9004,
+        0.9224
+      ]
+    },
+    "auroc": {
+      "mean": 0.9115,
+      "CI95": [
+        0.8959,
+        0.9255
+      ]
+    },
+    "auprc": {
+      "mean": 0.9711,
+      "CI95": [
+        0.9646,
+        0.9771
+      ]
+    },
+    "sensitivity": {
+      "mean": 0.9111,
+      "CI95": [
+        0.8956,
+        0.9258
+      ]
+    },
+    "specificity": {
+      "mean": 0.7069,
+      "CI95": [
+        0.6607,
+        0.75
+      ]
+    },
+    "youden": {
+      "mean": 0.6179,
+      "CI95": [
+        0.5703,
+        0.664
+      ]
+    },
+    "ece": {
+      "mean": 0.0556,
+      "CI95": [
+        0.0428,
+        0.0689
+      ]
+    }
+  },
+  "youden_threshold": {
+    "best_threshold": 0.7172,
+    "youden": 0.6763,
+    "sensitivity": 0.8242,
+    "specificity": 0.8521
+  }
+}

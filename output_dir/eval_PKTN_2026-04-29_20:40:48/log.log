@@ -1,0 +1,7 @@
+[2026-04-29 08:40:48 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/PKTN/PKTN | 0.01 |   128   |      16      |     0.0005     | PKTN   |]
+[2026-04-29 08:40:59 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2026-04-29 08:41:30 PM-main_binary_segmentation.py-INFO:MAE: 0.04918481868336681 HD95: 37.3670840309627 IoU: 0.4703033035922655 Dice: 0.5831885092937218]
+[2026-04-29 08:41:30 PM-main_binary_segmentation.py-INFO:95% CI | HD95 [35.032670422145976, 39.63260721079449] Dice [0.5658954823165008, 0.6011613348459794]]

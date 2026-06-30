@@ -1,0 +1,199 @@
+[2026-02-27 10:41:56 AM-engine_diagnosis.py-INFO:TEST Epoch:0* ACC 59.233 Precision 0.602 Recall 0.598 F1 0.589 AUROC 0.666 AUPR 0.660 SPE 0.598 Loss 0.698 
+ Confusion Matrix 
+ tensor([[1255,  512],
+        [ 998,  939]], device='cuda:0')]
+[2026-02-27 10:42:09 AM-main_diagnosis.py-INFO:Best accuracy: 59.23326133909287]
+[2026-02-27 10:42:19 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.6662, device='cuda:0')]
+[2026-02-27 10:42:58 AM-engine_diagnosis.py-INFO:TEST Epoch:1* ACC 66.631 Precision 0.667 Recall 0.667 F1 0.666 AUROC 0.736 AUPR 0.728 SPE 0.667 Loss 0.611 
+ Confusion Matrix 
+ tensor([[1208,  559],
+        [ 677, 1260]], device='cuda:0')]
+[2026-02-27 10:43:08 AM-main_diagnosis.py-INFO:Best accuracy: 66.63066954643628]
+[2026-02-27 10:43:18 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.7358, device='cuda:0')]
+[2026-02-27 10:43:46 AM-engine_diagnosis.py-INFO:TEST Epoch:2* ACC 63.958 Precision 0.656 Recall 0.646 F1 0.635 AUROC 0.762 AUPR 0.762 SPE 0.646 Loss 0.616 
+ Confusion Matrix 
+ tensor([[1382,  385],
+        [ 950,  987]], device='cuda:0')]
+[2026-02-27 10:43:56 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.7619, device='cuda:0')]
+[2026-02-27 10:44:27 AM-engine_diagnosis.py-INFO:TEST Epoch:3* ACC 76.485 Precision 0.770 Recall 0.761 F1 0.762 AUROC 0.834 AUPR 0.830 SPE 0.761 Loss 0.502 
+ Confusion Matrix 
+ tensor([[1198,  569],
+        [ 302, 1635]], device='cuda:0')]
+[2026-02-27 10:44:39 AM-main_diagnosis.py-INFO:Best accuracy: 76.48488120950324]
+[2026-02-27 10:44:50 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.8336, device='cuda:0')]
+[2026-02-27 10:45:36 AM-engine_diagnosis.py-INFO:TEST Epoch:4* ACC 74.433 Precision 0.748 Recall 0.741 F1 0.741 AUROC 0.822 AUPR 0.820 SPE 0.741 Loss 0.515 
+ Confusion Matrix 
+ tensor([[1174,  593],
+        [ 354, 1583]], device='cuda:0')]
+[2026-02-27 10:46:06 AM-engine_diagnosis.py-INFO:TEST Epoch:5* ACC 73.569 Precision 0.767 Recall 0.743 F1 0.731 AUROC 0.863 AUPR 0.861 SPE 0.743 Loss 0.532 
+ Confusion Matrix 
+ tensor([[1601,  166],
+        [ 813, 1124]], device='cuda:0')]
+[2026-02-27 10:46:16 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.8631, device='cuda:0')]
+[2026-02-27 10:46:45 AM-engine_diagnosis.py-INFO:TEST Epoch:6* ACC 79.212 Precision 0.793 Recall 0.790 F1 0.791 AUROC 0.873 AUPR 0.869 SPE 0.790 Loss 0.448 
+ Confusion Matrix 
+ tensor([[1328,  439],
+        [ 331, 1606]], device='cuda:0')]
+[2026-02-27 10:46:55 AM-main_diagnosis.py-INFO:Best accuracy: 79.21166306695464]
+[2026-02-27 10:47:05 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.8725, device='cuda:0')]
+[2026-02-27 10:47:35 AM-engine_diagnosis.py-INFO:TEST Epoch:7* ACC 72.111 Precision 0.771 Recall 0.731 F1 0.713 AUROC 0.862 AUPR 0.855 SPE 0.731 Loss 0.573 
+ Confusion Matrix 
+ tensor([[1653,  114],
+        [ 919, 1018]], device='cuda:0')]
+[2026-02-27 10:48:04 AM-engine_diagnosis.py-INFO:TEST Epoch:8* ACC 78.753 Precision 0.794 Recall 0.791 F1 0.787 AUROC 0.885 AUPR 0.884 SPE 0.791 Loss 0.453 
+ Confusion Matrix 
+ tensor([[1518,  249],
+        [ 538, 1399]], device='cuda:0')]
+[2026-02-27 10:48:14 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.8846, device='cuda:0')]
+[2026-02-27 10:48:43 AM-engine_diagnosis.py-INFO:TEST Epoch:9* ACC 80.049 Precision 0.819 Recall 0.795 F1 0.795 AUROC 0.892 AUPR 0.890 SPE 0.795 Loss 0.433 
+ Confusion Matrix 
+ tensor([[1183,  584],
+        [ 155, 1782]], device='cuda:0')]
+[2026-02-27 10:48:53 AM-main_diagnosis.py-INFO:Best accuracy: 80.048596112311]
+[2026-02-27 10:49:03 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.8921, device='cuda:0')]
+[2026-02-27 10:49:32 AM-engine_diagnosis.py-INFO:TEST Epoch:10* ACC 80.454 Precision 0.804 Recall 0.805 F1 0.804 AUROC 0.890 AUPR 0.890 SPE 0.805 Loss 0.431 
+ Confusion Matrix 
+ tensor([[1422,  345],
+        [ 379, 1558]], device='cuda:0')]
+[2026-02-27 10:49:43 AM-main_diagnosis.py-INFO:Best accuracy: 80.45356371490281]
+[2026-02-27 10:50:11 AM-engine_diagnosis.py-INFO:TEST Epoch:11* ACC 81.210 Precision 0.812 Recall 0.811 F1 0.812 AUROC 0.894 AUPR 0.893 SPE 0.811 Loss 0.418 
+ Confusion Matrix 
+ tensor([[1406,  361],
+        [ 335, 1602]], device='cuda:0')]
+[2026-02-27 10:50:21 AM-main_diagnosis.py-INFO:Best accuracy: 81.20950323974083]
+[2026-02-27 10:50:31 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.8943, device='cuda:0')]
+[2026-02-27 10:50:59 AM-engine_diagnosis.py-INFO:TEST Epoch:12* ACC 78.240 Precision 0.790 Recall 0.786 F1 0.782 AUROC 0.884 AUPR 0.884 SPE 0.786 Loss 0.456 
+ Confusion Matrix 
+ tensor([[1523,  244],
+        [ 562, 1375]], device='cuda:0')]
+[2026-02-27 10:51:28 AM-engine_diagnosis.py-INFO:TEST Epoch:13* ACC 81.722 Precision 0.817 Recall 0.818 F1 0.817 AUROC 0.896 AUPR 0.894 SPE 0.818 Loss 0.417 
+ Confusion Matrix 
+ tensor([[1462,  305],
+        [ 372, 1565]], device='cuda:0')]
+[2026-02-27 10:51:38 AM-main_diagnosis.py-INFO:Best accuracy: 81.72246220302377]
+[2026-02-27 10:51:48 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.8964, device='cuda:0')]
+[2026-02-27 10:52:19 AM-engine_diagnosis.py-INFO:TEST Epoch:14* ACC 81.803 Precision 0.818 Recall 0.817 F1 0.817 AUROC 0.901 AUPR 0.899 SPE 0.817 Loss 0.402 
+ Confusion Matrix 
+ tensor([[1413,  354],
+        [ 320, 1617]], device='cuda:0')]
+[2026-02-27 10:52:29 AM-main_diagnosis.py-INFO:Best accuracy: 81.80345572354211]
+[2026-02-27 10:52:40 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9009, device='cuda:0')]
+[2026-02-27 10:53:43 AM-engine_diagnosis.py-INFO:TEST Epoch:15* ACC 82.262 Precision 0.824 Recall 0.824 F1 0.823 AUROC 0.906 AUPR 0.905 SPE 0.824 Loss 0.405 
+ Confusion Matrix 
+ tensor([[1512,  255],
+        [ 402, 1535]], device='cuda:0')]
+[2026-02-27 10:53:53 AM-main_diagnosis.py-INFO:Best accuracy: 82.26241900647948]
+[2026-02-27 10:54:04 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9056, device='cuda:0')]
+[2026-02-27 10:54:32 AM-engine_diagnosis.py-INFO:TEST Epoch:16* ACC 82.046 Precision 0.822 Recall 0.822 F1 0.820 AUROC 0.909 AUPR 0.909 SPE 0.822 Loss 0.397 
+ Confusion Matrix 
+ tensor([[1516,  251],
+        [ 414, 1523]], device='cuda:0')]
+[2026-02-27 10:54:43 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9091, device='cuda:0')]
+[2026-02-27 10:55:12 AM-engine_diagnosis.py-INFO:TEST Epoch:17* ACC 82.208 Precision 0.824 Recall 0.820 F1 0.821 AUROC 0.906 AUPR 0.907 SPE 0.820 Loss 0.397 
+ Confusion Matrix 
+ tensor([[1368,  399],
+        [ 260, 1677]], device='cuda:0')]
+[2026-02-27 10:55:40 AM-engine_diagnosis.py-INFO:TEST Epoch:18* ACC 80.832 Precision 0.816 Recall 0.812 F1 0.808 AUROC 0.908 AUPR 0.907 SPE 0.812 Loss 0.421 
+ Confusion Matrix 
+ tensor([[1568,  199],
+        [ 511, 1426]], device='cuda:0')]
+[2026-02-27 10:56:09 AM-engine_diagnosis.py-INFO:TEST Epoch:19* ACC 80.967 Precision 0.815 Recall 0.813 F1 0.810 AUROC 0.908 AUPR 0.906 SPE 0.813 Loss 0.416 
+ Confusion Matrix 
+ tensor([[1546,  221],
+        [ 484, 1453]], device='cuda:0')]
+[2026-02-27 10:56:38 AM-engine_diagnosis.py-INFO:TEST Epoch:20* ACC 82.181 Precision 0.824 Recall 0.824 F1 0.822 AUROC 0.910 AUPR 0.911 SPE 0.824 Loss 0.396 
+ Confusion Matrix 
+ tensor([[1524,  243],
+        [ 417, 1520]], device='cuda:0')]
+[2026-02-27 10:56:49 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9103, device='cuda:0')]
+[2026-02-27 10:57:18 AM-engine_diagnosis.py-INFO:TEST Epoch:21* ACC 81.911 Precision 0.821 Recall 0.821 F1 0.819 AUROC 0.911 AUPR 0.911 SPE 0.821 Loss 0.399 
+ Confusion Matrix 
+ tensor([[1527,  240],
+        [ 430, 1507]], device='cuda:0')]
+[2026-02-27 10:57:28 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9109, device='cuda:0')]
+[2026-02-27 10:57:57 AM-engine_diagnosis.py-INFO:TEST Epoch:22* ACC 81.048 Precision 0.817 Recall 0.814 F1 0.810 AUROC 0.908 AUPR 0.907 SPE 0.814 Loss 0.415 
+ Confusion Matrix 
+ tensor([[1566,  201],
+        [ 501, 1436]], device='cuda:0')]
+[2026-02-27 10:58:26 AM-engine_diagnosis.py-INFO:TEST Epoch:23* ACC 81.884 Precision 0.827 Recall 0.822 F1 0.819 AUROC 0.914 AUPR 0.914 SPE 0.822 Loss 0.402 
+ Confusion Matrix 
+ tensor([[1591,  176],
+        [ 495, 1442]], device='cuda:0')]
+[2026-02-27 10:58:36 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9141, device='cuda:0')]
+[2026-02-27 10:59:05 AM-engine_diagnosis.py-INFO:TEST Epoch:24* ACC 82.829 Precision 0.829 Recall 0.829 F1 0.828 AUROC 0.914 AUPR 0.915 SPE 0.829 Loss 0.383 
+ Confusion Matrix 
+ tensor([[1506,  261],
+        [ 375, 1562]], device='cuda:0')]
+[2026-02-27 10:59:15 AM-main_diagnosis.py-INFO:Best accuracy: 82.829373650108]
+[2026-02-27 10:59:25 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9142, device='cuda:0')]
+[2026-02-27 10:59:54 AM-engine_diagnosis.py-INFO:TEST Epoch:25* ACC 81.884 Precision 0.822 Recall 0.821 F1 0.819 AUROC 0.910 AUPR 0.910 SPE 0.821 Loss 0.399 
+ Confusion Matrix 
+ tensor([[1540,  227],
+        [ 444, 1493]], device='cuda:0')]
+[2026-02-27 11:00:23 AM-engine_diagnosis.py-INFO:TEST Epoch:26* ACC 82.424 Precision 0.830 Recall 0.827 F1 0.824 AUROC 0.915 AUPR 0.914 SPE 0.827 Loss 0.399 
+ Confusion Matrix 
+ tensor([[1579,  188],
+        [ 463, 1474]], device='cuda:0')]
+[2026-02-27 11:00:33 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9149, device='cuda:0')]
+[2026-02-27 11:01:03 AM-engine_diagnosis.py-INFO:TEST Epoch:27* ACC 82.991 Precision 0.831 Recall 0.832 F1 0.830 AUROC 0.915 AUPR 0.915 SPE 0.832 Loss 0.385 
+ Confusion Matrix 
+ tensor([[1531,  236],
+        [ 394, 1543]], device='cuda:0')]
+[2026-02-27 11:01:12 AM-main_diagnosis.py-INFO:Best accuracy: 82.9913606911447]
+[2026-02-27 11:01:22 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9151, device='cuda:0')]
+[2026-02-27 11:01:51 AM-engine_diagnosis.py-INFO:TEST Epoch:28* ACC 82.748 Precision 0.830 Recall 0.829 F1 0.827 AUROC 0.916 AUPR 0.915 SPE 0.829 Loss 0.388 
+ Confusion Matrix 
+ tensor([[1541,  226],
+        [ 413, 1524]], device='cuda:0')]
+[2026-02-27 11:02:01 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9157, device='cuda:0')]
+[2026-02-27 11:02:30 AM-engine_diagnosis.py-INFO:TEST Epoch:29* ACC 83.234 Precision 0.834 Recall 0.834 F1 0.832 AUROC 0.916 AUPR 0.916 SPE 0.834 Loss 0.385 
+ Confusion Matrix 
+ tensor([[1540,  227],
+        [ 394, 1543]], device='cuda:0')]
+[2026-02-27 11:02:39 AM-main_diagnosis.py-INFO:Best accuracy: 83.23434125269978]
+[2026-02-27 11:02:49 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9161, device='cuda:0')]
+[2026-02-27 11:03:19 AM-engine_diagnosis.py-INFO:TEST Epoch:30* ACC 83.315 Precision 0.834 Recall 0.835 F1 0.833 AUROC 0.916 AUPR 0.914 SPE 0.835 Loss 0.383 
+ Confusion Matrix 
+ tensor([[1528,  239],
+        [ 379, 1558]], device='cuda:0')]
+[2026-02-27 11:03:29 AM-main_diagnosis.py-INFO:Best accuracy: 83.31533477321814]
+[2026-02-27 11:03:57 AM-engine_diagnosis.py-INFO:TEST Epoch:31* ACC 83.369 Precision 0.833 Recall 0.834 F1 0.833 AUROC 0.917 AUPR 0.916 SPE 0.834 Loss 0.372 
+ Confusion Matrix 
+ tensor([[1478,  289],
+        [ 327, 1610]], device='cuda:0')]
+[2026-02-27 11:04:08 AM-main_diagnosis.py-INFO:Best accuracy: 83.36933045356372]
+[2026-02-27 11:04:18 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9171, device='cuda:0')]
+[2026-02-27 11:04:47 AM-engine_diagnosis.py-INFO:TEST Epoch:32* ACC 83.153 Precision 0.831 Recall 0.832 F1 0.831 AUROC 0.917 AUPR 0.916 SPE 0.832 Loss 0.376 
+ Confusion Matrix 
+ tensor([[1491,  276],
+        [ 348, 1589]], device='cuda:0')]
+[2026-02-27 11:05:16 AM-engine_diagnosis.py-INFO:TEST Epoch:33* ACC 82.937 Precision 0.832 Recall 0.832 F1 0.829 AUROC 0.914 AUPR 0.913 SPE 0.832 Loss 0.393 
+ Confusion Matrix 
+ tensor([[1555,  212],
+        [ 420, 1517]], device='cuda:0')]
+[2026-02-27 11:05:45 AM-engine_diagnosis.py-INFO:TEST Epoch:34* ACC 83.369 Precision 0.834 Recall 0.834 F1 0.834 AUROC 0.918 AUPR 0.917 SPE 0.834 Loss 0.375 
+ Confusion Matrix 
+ tensor([[1502,  265],
+        [ 351, 1586]], device='cuda:0')]
+[2026-02-27 11:05:55 AM-main_diagnosis.py-INFO:Best auroc: tensor(0.9177, device='cuda:0')]
+[2026-02-27 11:06:23 AM-engine_diagnosis.py-INFO:TEST Epoch:35* ACC 82.235 Precision 0.826 Recall 0.825 F1 0.822 AUROC 0.914 AUPR 0.913 SPE 0.825 Loss 0.396 
+ Confusion Matrix 
+ tensor([[1555,  212],
+        [ 446, 1491]], device='cuda:0')]
+[2026-02-27 11:06:51 AM-engine_diagnosis.py-INFO:TEST Epoch:36* ACC 82.937 Precision 0.831 Recall 0.831 F1 0.829 AUROC 0.916 AUPR 0.915 SPE 0.831 Loss 0.387 
+ Confusion Matrix 
+ tensor([[1542,  225],
+        [ 407, 1530]], device='cuda:0')]
+[2026-02-27 11:07:20 AM-engine_diagnosis.py-INFO:TEST Epoch:37* ACC 82.775 Precision 0.830 Recall 0.830 F1 0.828 AUROC 0.915 AUPR 0.914 SPE 0.830 Loss 0.388 
+ Confusion Matrix 
+ tensor([[1546,  221],
+        [ 417, 1520]], device='cuda:0')]
+[2026-02-27 11:07:49 AM-engine_diagnosis.py-INFO:TEST Epoch:38* ACC 82.910 Precision 0.831 Recall 0.831 F1 0.829 AUROC 0.916 AUPR 0.915 SPE 0.831 Loss 0.385 
+ Confusion Matrix 
+ tensor([[1538,  229],
+        [ 404, 1533]], device='cuda:0')]
+[2026-02-27 11:08:19 AM-engine_diagnosis.py-INFO:TEST Epoch:39* ACC 82.937 Precision 0.831 Recall 0.831 F1 0.829 AUROC 0.916 AUPR 0.915 SPE 0.831 Loss 0.386 
+ Confusion Matrix 
+ tensor([[1541,  226],
+        [ 406, 1531]], device='cuda:0')]
+[2026-02-27 11:08:19 AM-main_diagnosis.py-INFO:Training time 0:27:26, best acc: 83.369330, best auroc: 0.917662]

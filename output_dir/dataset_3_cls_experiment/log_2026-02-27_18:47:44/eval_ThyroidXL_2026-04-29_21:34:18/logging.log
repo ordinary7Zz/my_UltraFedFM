@@ -1,0 +1,11 @@
+[2026-04-29 09:34:53 PM-engine_diagnosis.py-INFO:TEST Epoch:0 * ACC 83.1100 Precision 0.8366 Recall 0.8259 F1 0.8281 AUROC 0.9239 AUPR 0.9226 SPE 0.8259 Loss 0.3765 
+ Confusion Matrix 
+ tensor([[1006,  114],
+        [ 239,  731]], device='cuda:0')]
+[2026-04-29 09:34:53 PM-engine_diagnosis.py-INFO:95% CI | ACC [81.5789, 84.7368] Precision [0.8410, 0.8867] Recall [0.7264, 0.7821] F1 [0.7850, 0.8256] AUROC [0.9129, 0.9343] AUPRC [0.8945, 0.9247] SPE [0.8101, 0.8424]]
+[2026-04-29 09:34:54 PM-main_diagnosis.py-INFO:
+Class stat:
+|  Class  |  Accuracy  |  Precision  |   F1    |  AUROC   |   AUPR   |
+|---------|------------|-------------|---------|----------|----------|
+|    0    |   0.8311   |  0.808032   | 0.85074 | 0.825911 | 0.853123 |
+|    1    |   0.8311   |  0.865089   | 0.80551 | 0.825911 | 0.809349 |]

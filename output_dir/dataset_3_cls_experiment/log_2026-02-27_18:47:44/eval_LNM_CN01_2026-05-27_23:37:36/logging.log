@@ -1,0 +1,4 @@
+[2026-05-27 11:37:36 PM-inference_diagnosis_json.py-INFO:Eval root: ./dataset/Classification/LNM_CN01]
+[2026-05-27 11:37:36 PM-inference_diagnosis_json.py-INFO:class_to_idx: {'0': 0, '1': 1}]
+[2026-05-27 11:37:42 PM-inference_diagnosis_json.py-INFO:Resume checkpoint ./output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/checkpoint-best_auroc.pth]
+[2026-05-27 11:37:55 PM-inference_diagnosis_json.py-INFO:Saved AUROC JSON to /mnt/wangbd8/workspace/ThyroidAgent/UltraFedFM/output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/eval_LNM_CN01_2026-05-27_23:37:36/auroc_results.json]

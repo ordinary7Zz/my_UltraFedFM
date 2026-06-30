@@ -1,0 +1,24 @@
+[2026-05-27 04:07:49 PM-engine_diagnosis.py-INFO:TEST Epoch:0 * ACC 83.1100 Precision 0.8651 Recall 0.7536 F1 0.8055 AUROC 0.9239 AUPR 0.9100 SPE 0.8982 Loss 0.3765 
+ Confusion Matrix 
+ tensor([[1006,  114],
+        [ 239,  731]], device='cuda:0')]
+[2026-05-27 04:07:49 PM-engine_diagnosis.py-INFO:95% CI | ACC [81.5789, 84.7368] Precision [0.8410, 0.8867] Recall [0.7264, 0.7821] F1 [0.7850, 0.8256] AUROC [0.9129, 0.9343] AUPRC [0.8945, 0.9247] SPE [0.8790, 0.9152]]
+[2026-05-27 04:07:50 PM-main_diagnosis.py-INFO:Saved AUROC JSON to ./output_dir/dataset_3_cls_experiment/log_2026-02-27_18:47:44/eval_ThyroidXL_2026-05-27_16:05:08/auroc_results.json]
+[2026-05-27 04:07:50 PM-main_diagnosis.py-INFO:
+Class stat:
+|  Class  |  Accuracy  |  Precision  |   F1    |  AUROC   |   AUPR   |
+|---------|------------|-------------|---------|----------|----------|
+|    0    |   0.8311   |  0.808032   | 0.85074 | 0.825911 | 0.853123 |
+|    1    |   0.8311   |  0.865089   | 0.80551 | 0.825911 | 0.809349 |]
+[2026-05-27 04:07:50 PM-main_diagnosis.py-INFO:
+Class stat (score-based, definition-consistent):
+|  Class  |  Accuracy  |  Precision  |  Recall  |   F1   |  AUROC  |  AUPR  |  SPE   |
+|---------|------------|-------------|----------|--------|---------|--------|--------|
+|    0    |   0.8311   |   0.8080    |  0.8982  | 0.8507 | 0.9239  | 0.9354 | 0.7536 |
+|    1    |   0.8311   |   0.8651    |  0.7536  | 0.8055 | 0.9239  | 0.9100 | 0.8982 |]
+[2026-05-27 04:07:50 PM-main_diagnosis.py-INFO:
+Class stat 95% CI (score-based, definition-consistent):
+|  Class  | Accuracy 95% CI   | Precision 95% CI   | Recall 95% CI    | F1 95% CI        | AUROC 95% CI     | AUPR 95% CI      | SPE 95% CI       |
+|---------|-------------------|--------------------|------------------|------------------|------------------|------------------|------------------|
+|    0    | [0.8158, 0.8474]  | [0.7859, 0.8303]   | [0.8790, 0.9152] | [0.8354, 0.8664] | [0.9129, 0.9343] | [0.9236, 0.9468] | [0.7264, 0.7821] |
+|    1    | [0.8158, 0.8474]  | [0.8410, 0.8867]   | [0.7264, 0.7821] | [0.7850, 0.8256] | [0.9129, 0.9343] | [0.8945, 0.9247] | [0.8790, 0.9152] |]
