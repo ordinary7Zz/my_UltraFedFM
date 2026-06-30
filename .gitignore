@@ -2,17 +2,12 @@
 dataset/
 pretrained/
 
-# output_dir：只保留日志目录
-# 第1步：忽略顶层文件，但允许进入子目录（关键！否则 git 不遍历）
-output_dir/*
-!output_dir/*/
-# 第2步：忽略子目录内的所有内容
-output_dir/*/**
-# 第3步：捞回日志目录和文件
-!output_dir/eval_logs/
-!output_dir/eval_logs/**
-!output_dir/**/log_*/
-!output_dir/**/log_*/**
+# output_dir：忽略全部，只保留日志目录
+/output_dir/**
+!/output_dir/eval_logs/
+!/output_dir/eval_logs/**
+!/output_dir/**/log_*/
+!/output_dir/**/log_*/**
 
 # Python 缓存
 __pycache__/
