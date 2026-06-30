@@ -1,0 +1,125 @@
+[2025-12-14 03:04:52 PM-main_binary_segmentation.py-INFO:
+|                                 | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|---------------------------------|------------------------|------|---------|--------------|----------------|--------|
+| ./output_dir/epoch_bestDice.pth | ./output_dir/TN3K/TN3K | 0.01 |   128   |      16      |     0.0005     | TN3K   |]
+[2025-12-14 03:05:02 PM-main_binary_segmentation.py-INFO:
+|                                 | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|---------------------------------|------------------------|------|---------|--------------|----------------|--------|
+| ./output_dir/epoch_bestDice.pth | ./output_dir/DDTI/DDTI | 0.01 |   128   |      16      |     0.0005     | DDTI   |]
+[2025-12-14 03:05:12 PM-main_binary_segmentation.py-INFO:
+|                                 | pretrainedsavepath               |  lr  |  epoch  |  batch_size  |  weight_decay  | note      |
+|---------------------------------|----------------------------------|------|---------|--------------|----------------|-----------|
+| ./output_dir/epoch_bestDice.pth | ./output_dir/ThyroidXL/ThyroidXL | 0.01 |   128   |      16      |     0.0005     | ThyroidXL |]
+[2025-12-14 03:05:22 PM-main_binary_segmentation.py-INFO:
+|                                 | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|---------------------------------|------------------------|------|---------|--------------|----------------|--------|
+| ./output_dir/epoch_bestDice.pth | ./output_dir/PKTN/PKTN | 0.01 |   128   |      16      |     0.0005     | PKTN   |]
+[2025-12-14 03:05:32 PM-main_binary_segmentation.py-INFO:
+|                                 | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|---------------------------------|------------------------|------|---------|--------------|----------------|--------|
+| ./output_dir/epoch_bestDice.pth | ./output_dir/TN5K/TN5K | 0.01 |   128   |      16      |     0.0005     | TN5K   |]
+[2025-12-14 03:05:49 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/TN3K/TN3K | 0.01 |   128   |      16      |     0.0005     | TN3K   |]
+[2025-12-14 03:05:51 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:06:23 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/DDTI/DDTI | 0.01 |   128   |      16      |     0.0005     | DDTI   |]
+[2025-12-14 03:06:25 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:06:58 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath               |  lr  |  epoch  |  batch_size  |  weight_decay  | note      |
+|----|----------------------------------|------|---------|--------------|----------------|-----------|
+|    | ./output_dir/ThyroidXL/ThyroidXL | 0.01 |   128   |      16      |     0.0005     | ThyroidXL |]
+[2025-12-14 03:07:00 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:08:16 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/PKTN/PKTN | 0.01 |   128   |      16      |     0.0005     | PKTN   |]
+[2025-12-14 03:08:19 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:08:53 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/TN5K/TN5K | 0.01 |   128   |      16      |     0.0005     | TN5K   |]
+[2025-12-14 03:08:55 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:09:42 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/TN3K/TN3K | 0.01 |   128   |      16      |     0.0005     | TN3K   |]
+[2025-12-14 03:09:44 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:10:21 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/DDTI/DDTI | 0.01 |   128   |      16      |     0.0005     | DDTI   |]
+[2025-12-14 03:10:24 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:10:56 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath               |  lr  |  epoch  |  batch_size  |  weight_decay  | note      |
+|----|----------------------------------|------|---------|--------------|----------------|-----------|
+|    | ./output_dir/ThyroidXL/ThyroidXL | 0.01 |   128   |      16      |     0.0005     | ThyroidXL |]
+[2025-12-14 03:10:58 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:12:23 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/PKTN/PKTN | 0.01 |   128   |      16      |     0.0005     | PKTN   |]
+[2025-12-14 03:12:26 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:12:48 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/TN5K/TN5K | 0.01 |   128   |      16      |     0.0005     | TN5K   |]
+[2025-12-14 03:12:51 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:16:25 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/TN3K/TN3K | 0.01 |   128   |      16      |     0.0005     | TN3K   |]
+[2025-12-14 03:16:27 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:16:59 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/DDTI/DDTI | 0.01 |   128   |      16      |     0.0005     | DDTI   |]
+[2025-12-14 03:17:02 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:17:34 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath               |  lr  |  epoch  |  batch_size  |  weight_decay  | note      |
+|----|----------------------------------|------|---------|--------------|----------------|-----------|
+|    | ./output_dir/ThyroidXL/ThyroidXL | 0.01 |   128   |      16      |     0.0005     | ThyroidXL |]
+[2025-12-14 03:17:36 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:18:54 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/PKTN/PKTN | 0.01 |   128   |      16      |     0.0005     | PKTN   |]
+[2025-12-14 03:18:56 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2025-12-14 03:19:39 PM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/TN5K/TN5K | 0.01 |   128   |      16      |     0.0005     | TN5K   |]
+[2025-12-14 03:19:41 PM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2026-02-20 10:38:10 AM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/TN3K/TN3K | 0.01 |   128   |      16      |     0.0005     | TN3K   |]
+[2026-02-20 10:38:20 AM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2026-02-20 10:39:48 AM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/TN3K/TN3K | 0.01 |   128   |      16      |     0.0005     | TN3K   |]
+[2026-02-20 10:39:58 AM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2026-02-20 10:40:42 AM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/DDTI/DDTI | 0.01 |   128   |      16      |     0.0005     | DDTI   |]
+[2026-02-20 10:40:53 AM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2026-02-20 10:41:39 AM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath               |  lr  |  epoch  |  batch_size  |  weight_decay  | note      |
+|----|----------------------------------|------|---------|--------------|----------------|-----------|
+|    | ./output_dir/ThyroidXL/ThyroidXL | 0.01 |   128   |      16      |     0.0005     | ThyroidXL |]
+[2026-02-20 10:41:50 AM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2026-02-20 10:43:16 AM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/PKTN/PKTN | 0.01 |   128   |      16      |     0.0005     | PKTN   |]
+[2026-02-20 10:43:30 AM-main_binary_segmentation.py-INFO:load pretrained weight from None]
+[2026-02-20 10:44:25 AM-main_binary_segmentation.py-INFO:
+|    | pretrainedsavepath     |  lr  |  epoch  |  batch_size  |  weight_decay  | note   |
+|----|------------------------|------|---------|--------------|----------------|--------|
+|    | ./output_dir/TN5K/TN5K | 0.01 |   128   |      16      |     0.0005     | TN5K   |]
+[2026-02-20 10:44:37 AM-main_binary_segmentation.py-INFO:load pretrained weight from None]
