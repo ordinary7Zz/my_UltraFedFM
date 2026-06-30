@@ -24,3 +24,6 @@ __pycache__/
 # 保留评估日志
 !output_dir/eval_logs/
 !output_dir/eval_logs/**
+
+.pth
+.pt
