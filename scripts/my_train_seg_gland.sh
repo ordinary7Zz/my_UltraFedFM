@@ -2,7 +2,7 @@ DATASET='TGVideo' # dataset name
 TRAIN_IMAGE_PATH='/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/train/image'
 TRAIN_MASK_PATH='/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/train/mask'
 TEST_IMAGE_PATH='/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/test/image'
-TEST_MASK_PATH='/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/test/image'
+TEST_MASK_PATH='/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/test/mask'
 CUDA_VISIBLE_DEVICES='1' python main_binary_segmentation.py \
     --train_image_path "${TRAIN_IMAGE_PATH}" \
     --train_mask_path "${TRAIN_MASK_PATH}" \
