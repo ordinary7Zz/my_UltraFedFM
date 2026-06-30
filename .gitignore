@@ -1,17 +1,24 @@
 # 超大目录（必须忽略）
-output_dir/*
 dataset/
 pretrained/
 
-
+# output_dir：忽略全部内容，只保留日志
+output_dir/**
+!output_dir/eval_logs/
+!output_dir/eval_logs/**
+!output_dir/**/log_*/
+!output_dir/**/log_*/**
 
 # Python 缓存
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.log
 *.tmp
+
+# 日志：全局忽略 .log，但保留 output_dir 下的
+*.log
+!output_dir/**/*.log
 
 # 系统 & IDE
 .ipynb_checkpoints/
@@ -21,9 +28,6 @@ __pycache__/
 *.swp
 *.swo
 
-# 保留评估日志
-!output_dir/eval_logs/
-!output_dir/eval_logs/**
-
-.pth
-.pt
+# 模型权重文件
+*.pth
+*.pt
