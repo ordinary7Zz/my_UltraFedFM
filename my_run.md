@@ -229,6 +229,16 @@ dataset/
 
 ```bash
 python main_binary_segmentation.py \
+    --train_image_path '/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/train/image' \
+    --train_mask_path '/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/train/mask' \
+    --test_image_path '/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/test/image' \
+    --test_mask_path '/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/test/mask' \
+    --savepath ./my_infer_output/seg/gland \
+    --note vit_b_ssl_usffm \
+    --resume ./my_pth/gland_seg/epoch_bestDice.pth \
+    --eval
+
+python main_binary_segmentation.py \
     --train_image_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/sample/images \
     --train_mask_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/sample/masks \
     --test_image_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/sample/images \
@@ -236,14 +246,16 @@ python main_binary_segmentation.py \
     --savepath ./my_infer_output/sample \
     --note vit_b_ssl_usffm \
     --resume ./my_pth/nodule_seg/epoch_bestDice.pth \
-    --eval \
-    --plot
+    --eval
 ```
 
 批量评估脚本：`scripts/my_eval_binary_segmentation_multi.sh`，对 Augtrain / finall_data / TN3K / DDTI / ThyroidXL / PKTN / TN5K 共 7 个数据集依次评估。
 
 ### 10.3 可视化
-
+TRAIN_IMAGE_PATH='/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/train/image'
+TRAIN_MASK_PATH='/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/train/mask'
+TEST_IMAGE_PATH='/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/test/image'
+TEST_MASK_PATH='/mnt/wangbd8/workspace/DataSets/ThyroidAgent/TGVideo_PNG/test/mask'
 ```bash
 python main_binary_segmentation.py \
     --train_image_path ./dataset/xxx/train/image \

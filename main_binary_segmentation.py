@@ -312,8 +312,8 @@ class Train(object):
 
             self.val(self.val_loader, self.model, epoch, self.args.exp_path)
 
-            # if (epoch+1)%8==0:
-            #     torch.save(self.model.state_dict(), self.args.savepath+'/model-'+str(epoch+1))
+            if (epoch+1)%5==0:
+                torch.save(self.model.state_dict(), self.args.exp_path+'/model-'+str(epoch+1)+'.pth')
 
     def val(self, val_loader, model, epoch, save_path):
         # best_mae, best_dice, best_acc, best_epoch
