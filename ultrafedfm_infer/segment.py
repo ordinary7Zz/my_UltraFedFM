@@ -120,8 +120,20 @@ def compute_dice(pred, gt):
     return 2.0 * intersection / denom
 
 
+def _hd_distance(x, y):
+    """One-directional HD: 95th percentile of distances from x foreground to y surface."""
+    indexes = np.nonzero(x)
+    distances = ndimage.distance_transform_edt(~y)
+    return float(np.percentile(distances[indexes], 95))
+
+
 def compute_hd95(pred, gt):
     """Hausdorff distance 95th percentile for binary masks.
+
+    Computation method (aligned with project metrics.py):
+      - hd1 = p95(distances from pred foreground to gt surface)
+      - hd2 = p95(distances from gt foreground to pred surface)
+      - result = max(hd1, hd2)
 
     Boundary handling:
       - pred and gt both have foreground: normal computation
@@ -138,24 +150,9 @@ def compute_hd95(pred, gt):
     if pred_empty or gt_empty:
         return 0.0
 
-    pred_bd = _surface_distance(pred)
-    gt_bd = _surface_distance(gt)
-
-    # distance from pred boundary to gt surface
-    d_pred_to_gt = ndimage.distance_transform_edt(~gt_bd)
-    d_gt_to_pred = ndimage.distance_transform_edt(~pred_bd)
-
-    d_pred = d_pred_to_gt[pred_bd]
-    d_gt = d_gt_to_pred[gt_bd]
-
-    all_distances = np.concatenate([d_pred, d_gt])
-    return float(np.percentile(all_distances, 95))
-
-
-def _surface_distance(mask):
-    """Return a boolean mask of surface/boundary pixels."""
-    eroded = ndimage.binary_erosion(mask, iterations=1)
-    return mask & ~eroded
+    hd1 = _hd_distance(pred, gt)
+    hd2 = _hd_distance(gt, pred)
+    return max(hd1, hd2)
 
 
 def bootstrap_ci(values, n_bootstrap=2000, seed=42, alpha=0.05):

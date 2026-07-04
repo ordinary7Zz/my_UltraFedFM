@@ -134,15 +134,15 @@ python segment.py --data_path /path/to/images --resume /path/to/ckpt.pth \
 python segment.py \
     --data_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/TGVideo_PNG/test/image \
     --resume /mnt/wangbd8/workspace/ThyroidAgent/UltraFedFM/my_pth/gland_seg/epoch_bestDice.pth \
-    --gt_dir /path/to/gt_masks \
-    --output_log ./logs/metrics.log
+    --gt_dir /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/TGVideo_PNG/test/mask \
+    --output_log ./logs/gland_metrics.log
 
 # 结节分割
 python segment.py \
-    --data_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/TGVideo_PNG/test/image \
+    --data_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/TN3K/test/images \
     --resume /mnt/wangbd8/workspace/ThyroidAgent/UltraFedFM/my_pth/nodule_seg/epoch_bestDice.pth \
-    --gt_dir /path/to/gt_masks \
-    --output_log ./logs/metrics.log
+    --gt_dir /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/TN3K/test/masks \
+    --output_log ./logs/nodule_metrics.log
 ```
 
 **无任何输出**（允许的情况）：
