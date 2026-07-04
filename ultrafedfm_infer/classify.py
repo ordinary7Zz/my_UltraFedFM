@@ -176,6 +176,16 @@ def compute_all_metrics(y_true, y_pred, y_score, nb_classes, n_bootstrap=2000):
     y_pred = np.array(y_pred)
     y_score = np.array(y_score)
 
+    # Auto-remap 1-indexed labels (e.g. TIRADS 1-5) to 0-indexed (0-4)
+    label_min = y_true.min()
+    label_max = y_true.max()
+    if label_min >= 1 and label_max >= nb_classes:
+        offset = label_min
+        y_true = y_true - offset
+        y_pred = y_pred - offset
+        print('Auto-remapped labels from {}-{} to 0-{}'.format(
+            offset, label_max, label_max - offset))
+
     metrics = {}
 
     # --- point estimates ---
