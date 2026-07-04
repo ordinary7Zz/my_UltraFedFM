@@ -107,7 +107,7 @@ def run_inference(data_loader, model, device, nb_classes):
         preds = torch.argmax(probabilities, dim=1)
 
         all_paths.extend(list(paths))
-        all_preds.extend(preds.cpu().tolist())
+        all_preds.extend(preds.cpu().flatten().tolist())
         all_scores.extend(probabilities.cpu().tolist())
 
     return all_paths, all_preds, all_scores
