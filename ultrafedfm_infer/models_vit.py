@@ -34,7 +34,7 @@ class VisionTransformer(timm.models.vision_transformer.VisionTransformer):
             self.fc_norm = norm_layer(embed_dim)
 
             del self.norm  # remove the original norm
-    def forward_features(self, x):
+    def forward_features(self, x, **kwargs):
         B = x.shape[0]
         B, C, H, W = x.shape
 
@@ -53,6 +53,11 @@ class VisionTransformer(timm.models.vision_transformer.VisionTransformer):
             x = self.norm(x)
             outcome = x[:, 0]
         return outcome
+
+    def forward(self, x):
+        x = self.forward_features(x)
+        x = self.head(x)
+        return x
 
     # def get_last_selfattention(self, x):
     #     B = x.shape[0]

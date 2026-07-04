@@ -53,9 +53,25 @@ python classify.py --data_path /path/to/images --resume /path/to/ckpt.pth \
 **有标签** — 输出预测 CSV + 指标日志：
 
 ```bash
-python classify.py --data_path /path/to/images --resume /path/to/ckpt.pth \
-    --nb_classes 5 --label_file labels.json --label_field tirads \
-    --output_csv predictions.csv --output_log metrics.log
+# 良恶性二分类
+python classify.py \
+    --data_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/TN3K/test/images \
+    --resume /mnt/wangbd8/workspace/ThyroidAgent/UltraFedFM/output_dir/dataset_3_cls_experiment/checkpoint-best_auroc.pth \
+    --nb_classes 2 \
+    --label_file /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/TN3K/test/TN3K_test_label.json \
+    --label_field malignancy \
+    --output_csv ./logs/binary_predictions.csv \
+    --output_log ./logs/binary_metrics.log
+
+# TIRADS五分类
+python classify.py \
+    --data_path /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/Cine-Clip/test/images \
+    --resume /mnt/wangbd8/workspace/ThyroidAgent/UltraFedFM/output_dir/Cine-Clip_TIRADS/checkpoint-best_auroc.pth \
+    --nb_classes 5 \
+    --label_file /mnt/wangbd8/workspace/DataSets/ThyroidAgent/train_val_test/Cine-Clip/test/Cine-Clip_test_label.json \
+    --label_field tirads \
+    --output_csv ./logs/multi_predictions.csv \
+    --output_log ./logs/multi_metrics.log
 ```
 
 ### 标签 JSON 格式
