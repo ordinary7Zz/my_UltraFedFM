@@ -56,6 +56,8 @@ class VisionTransformer(timm.models.vision_transformer.VisionTransformer):
 
     def forward(self, x):
         x = self.forward_features(x)
+        if self.global_pool:
+            x = x.squeeze(1)  # (B, 1, embed_dim) -> (B, embed_dim)
         x = self.head(x)
         return x
 
